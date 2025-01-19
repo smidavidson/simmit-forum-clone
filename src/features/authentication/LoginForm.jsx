@@ -39,6 +39,8 @@ export default function LoginForm() {
                 <label htmlFor='email-input'>Email:</label>
                 <input
                     id='email-input'
+                    type='text'
+                    autoComplete='username'
                     value={email}
                     onChange={(e) => {
                         setEmail((ce) => {
@@ -52,6 +54,7 @@ export default function LoginForm() {
                 <input
                     id='password'
                     type='password'
+                    autoComplete='current-password'
                     value={password}
                     onChange={(e) => {
                         setPassword((cp) => {

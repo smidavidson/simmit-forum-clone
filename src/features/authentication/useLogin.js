@@ -11,7 +11,8 @@ export function useLogin() {
             return loginApi({ email, password });
         },
         onSuccess: (sessionData) => {
-            queryClient.setQueryData(['user'], sessionData.session.data);
+            // Cache session data of user with React Query
+            queryClient.setQueryData(['user'], sessionData.session.user);
             navigate('/');
         },
         onError: (error) => {

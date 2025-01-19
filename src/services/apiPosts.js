@@ -16,13 +16,11 @@ export async function getPosts() {
 }
 
 export async function getPost(id) {
-    let query = supabase
+    const { data: post, error } = await supabase
         .from('posts')
         .select(`*, profiles(username)`)
         .eq('id', id)
         .single();
-
-    const { data: post, error } = await query;
 
     if (error) {
         console.log('Error fetching a post in apiPosts: ', error);
