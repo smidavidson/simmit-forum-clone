@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Post from './pages/Post';
+import SubmitPost from './pages/SubmitPost';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             {
                 path: '/:postId',
                 element: <Post></Post>,
+            },
+            {
+                path: '/submit',
+                element: <SubmitPost></SubmitPost>,
             },
         ],
     },

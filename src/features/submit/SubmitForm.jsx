@@ -1,19 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { usePost } from './usePost';
 
-export default function DisplayPost() {
+export default function SubmitForm() {
     const navigate = useNavigate();
 
-    const { post, isLoading } = usePost();
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    // For now just display the postId
     return (
         <div>
-            POST:{post.content}
+            Submit new post
             <div>
                 <button
                     onClick={() => {
