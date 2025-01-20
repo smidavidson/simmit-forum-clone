@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Post from './pages/Post';
 import SubmitPost from './pages/SubmitPost';
+import ProtectedRoute from './ui/ProtectedRoute';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -34,7 +35,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/submit',
-                element: <SubmitPost></SubmitPost>,
+                element: (
+                    <ProtectedRoute>
+                        <SubmitPost></SubmitPost>
+                    </ProtectedRoute>
+                ),
             },
         ],
     },

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getCurrentUser } from '../../services/apiAuth';
 import { getProfile } from '../../services/apiProfiles';
 
+// This returns user, and user matching user profile
 export function useUser() {
     const { data: user, isLoading: userLoading } = useQuery({
         queryKey: ['user'],
@@ -18,5 +19,5 @@ export function useUser() {
         enabled: !!user?.id,
     });
 
-    return { user, profile, isLoading: userLoading || profileLoading };
+    return { user, profile, isLoading: userLoading };
 }

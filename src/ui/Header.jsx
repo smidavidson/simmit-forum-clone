@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useUser } from '../features/authentication/useUser';
-import { BiPlusCircle } from 'react-icons/bi';
+import { BiPlusCircle, BiSolidLogIn, BiSolidLogOut } from 'react-icons/bi';
 
 export default function Header() {
     const { user, profile, isLoading } = useUser();
@@ -21,13 +21,28 @@ export default function Header() {
                     </Link>
 
                     <nav className='flex items-center gap-6'>
-                        <Link to={'/submit'} className='flex items-center gap-1'>
-                            <BiPlusCircle></BiPlusCircle> Submit a Post
+                        <Link
+                            to={'/submit'}
+                            className='flex items-center gap-1'
+                        >
+                            <BiPlusCircle></BiPlusCircle> Submit Post
                         </Link>
-                        {user ? (
-                            <div>{profile?.username}</div>
+                        {isLoading ? (
+                            <div>Loading...</div>
+                        ) : user ? (
+                            <>
+                                <div>{profile?.username}</div>
+                                <Link className='flex items-center gap-1'>
+                                    Logout<BiSolidLogOut></BiSolidLogOut>
+                                </Link>
+                            </>
                         ) : (
-                            <Link to={'/login'}>Login</Link>
+                            <Link
+                                to={'/login'}
+                                className='flex items-center gap-1'
+                            >
+                                Login<BiSolidLogIn></BiSolidLogIn>
+                            </Link>
                         )}
                     </nav>
                 </div>
