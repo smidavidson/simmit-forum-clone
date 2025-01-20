@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useUser } from '../features/authentication/useUser';
 import { BiPlusCircle, BiSolidLogIn, BiSolidLogOut } from 'react-icons/bi';
+import useLogout from '../features/authentication/useLogout';
 
 export default function Header() {
     const { user, profile, isLoading } = useUser();
+    const { logout, isLoading: isLoggingOut } = useLogout();
 
     // Debug, check that it exists
     console.log(user?.id);
@@ -32,9 +34,15 @@ export default function Header() {
                         ) : user ? (
                             <>
                                 <div>{profile?.username}</div>
-                                <Link className='flex items-center gap-1'>
+                                <button
+                                    className='flex items-center gap-1'
+                                    onClick={() => {
+                                        logout();
+                                    }}
+                                    disabled={isLoggingOut}
+                                >
                                     Logout<BiSolidLogOut></BiSolidLogOut>
-                                </Link>
+                                </button>
                             </>
                         ) : (
                             <Link

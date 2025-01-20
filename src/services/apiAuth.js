@@ -17,6 +17,14 @@ export async function login({ email, password }) {
     return sessionData;
 }
 
+// Use to logout
+export async function logout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+        console.log('Error logging out in apiAuth: ', error);
+    }
+}
+
 // Used to get user data after refresh (because React Query loses session data on refresh)
 export async function getCurrentUser() {
     const { data: session } = await supabase.auth.getSession();
