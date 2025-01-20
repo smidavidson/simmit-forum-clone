@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useUser } from '../features/authentication/useUser';
+import { BiPlusCircle } from 'react-icons/bi';
 
 export default function Header() {
     const { user, profile, isLoading } = useUser();
@@ -12,18 +13,25 @@ export default function Header() {
     }
 
     return (
-        <div>
-            Simmit
-            <div>
-                <Link to={'/submit'}>Submit a Post</Link>
+        <header className='border-b bg-white'>
+            <div className='px-4 py-4'>
+                <div className='flex items-center justify-between'>
+                    <Link to={'/'} className='text-lg font-semibold'>
+                        Simmit
+                    </Link>
+
+                    <nav className='flex items-center gap-6'>
+                        <Link to={'/submit'} className='flex items-center gap-1'>
+                            <BiPlusCircle></BiPlusCircle> Submit a Post
+                        </Link>
+                        {user ? (
+                            <div>{profile?.username}</div>
+                        ) : (
+                            <Link to={'/login'}>Login</Link>
+                        )}
+                    </nav>
+                </div>
             </div>
-            <div>
-                {user ? (
-                    <div>{profile?.username}</div>
-                ) : (
-                    <Link to={'/login'}>Login</Link>
-                )}
-            </div>
-        </div>
+        </header>
     );
 }
