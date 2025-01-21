@@ -1,10 +1,10 @@
-import PostsTable from '../features/posts/PostsTable';
+import FrontPagePosts from '../features/posts/FrontPagePosts';
 
 export default function FrontPage() {
     return (
         <div>
             <div>Filter by:</div>
-            <PostsTable></PostsTable>
+            <FrontPagePosts></FrontPagePosts>
         </div>
     );
 }

@@ -7,12 +7,13 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Post from './pages/Post';
 import SubmitPost from './pages/SubmitPost';
 import ProtectedRoute from './ui/ProtectedRoute';
-import Profile from './ui/Profile';
+import Profile from './features/profile/Profile';
 
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 0,
+            staleTime: 5 * 60 * 1000,
+            cacheTime: 15 * 60 * 1000,
         },
     },
 });
@@ -23,7 +24,6 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-
                 element: <FrontPage></FrontPage>,
             },
             {
