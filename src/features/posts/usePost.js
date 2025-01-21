@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getPost } from '../../services/apiPosts';
 import { useParams } from 'react-router-dom';
 
+// Retrieve post from Post Id in params
 export function usePost() {
     const { postId } = useParams();
 

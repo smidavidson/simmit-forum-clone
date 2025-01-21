@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { usePost } from './usePost';
+import CommentsTable from '../comments/CommentsTable';
 
 export default function DisplayPost() {
     const navigate = useNavigate();
@@ -16,13 +17,7 @@ export default function DisplayPost() {
             <div>Title: {post.title}</div>
             <div>Content: {post.content}</div>
             <div>
-                <button
-                    onClick={() => {
-                        navigate(-1);
-                    }}
-                >
-                    Back
-                </button>
+                <CommentsTable postId={post.id}></CommentsTable>
             </div>
         </div>
     );

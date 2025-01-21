@@ -9,7 +9,7 @@ export default function PostItem({ post }) {
     return (
         <div className='rounded-md border bg-white p-2 shadow-sm'>
             <h2 className='text-md mb-1 font-medium'>
-                <Link to={`${post.id}`}>{post.title}</Link>
+                <Link to={`/post/${post.id}`}>{post.title}</Link>
             </h2>
             <div className='text-sm text-gray-500'>
                 <Link to={`/user/${post.profiles.username}`} className='text-gray-700'>
