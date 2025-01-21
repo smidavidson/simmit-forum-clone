@@ -37,9 +37,9 @@ const router = createBrowserRouter([
             {
                 path: '/submit',
                 element: (
-                    // <ProtectedRoute>
-                    <SubmitPost></SubmitPost>
-                    // </ProtectedRoute>
+                    <ProtectedRoute>
+                        <SubmitPost></SubmitPost>
+                    </ProtectedRoute>
                 ),
             },
             {
