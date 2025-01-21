@@ -2,6 +2,7 @@
 
 import supabase from './supabase';
 
+// Get all Posts
 export async function getPosts() {
     let query = supabase.from('posts').select(`*, profiles(username)`);
 
@@ -15,6 +16,7 @@ export async function getPosts() {
     return posts;
 }
 
+// Get post given a Post ID
 export async function getPost(id) {
     const { data: post, error } = await supabase
         .from('posts')
@@ -27,4 +29,22 @@ export async function getPost(id) {
     }
 
     return post;
+}
+
+// Submit a post
+export async function submitPost(newPost) {
+    // Get user saved in local storage
+    const { data: userData } = await supabase.auth.getUser();
+
+    // Post table schema: id, created_at (both are autofilled), title, content, image_url (this can be null for now)
+    const { data, error } = await supabase
+        .from('posts')
+        .insert([{ ...newPost, created_by: userData.user.id }])
+        .select();
+
+    if (error) {
+        console.log('Post could not be submitted: ', error);
+    }
+
+    return data;
 }

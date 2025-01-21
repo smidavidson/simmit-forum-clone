@@ -1,6 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useUser } from '../features/authentication/useUser';
-import { BiPlusCircle, BiSolidLogIn, BiSolidLogOut } from 'react-icons/bi';
+import {
+    BiBell,
+    BiEdit,
+    BiLogOut,
+    BiPen,
+    BiPencil,
+    BiPlusCircle,
+    BiSolidLogIn,
+    BiSolidLogOut,
+} from 'react-icons/bi';
 import useLogout from '../features/authentication/useLogout';
 
 export default function Header() {
@@ -33,7 +42,12 @@ export default function Header() {
                             <div>Loading...</div>
                         ) : user ? (
                             <>
-                                <div>{profile?.username}</div>
+                                <Link>
+                                    <BiBell></BiBell>
+                                </Link>
+                                <Link to={`/user/${profile?.username}`}>
+                                    {profile?.username}
+                                </Link>
                                 <button
                                     className='flex items-center gap-1'
                                     onClick={() => {
@@ -41,7 +55,7 @@ export default function Header() {
                                     }}
                                     disabled={isLoggingOut}
                                 >
-                                    Logout<BiSolidLogOut></BiSolidLogOut>
+                                    Logout<BiLogOut></BiLogOut>
                                 </button>
                             </>
                         ) : (

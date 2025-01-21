@@ -13,7 +13,8 @@ export default function DisplayPost() {
     // For now just display the postId
     return (
         <div>
-            POST:{post.content}
+            <div>Title: {post.title}</div>
+            <div>Content: {post.content}</div>
             <div>
                 <button
                     onClick={() => {
