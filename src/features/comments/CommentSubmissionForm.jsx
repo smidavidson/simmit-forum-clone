@@ -2,10 +2,13 @@ import { BiSend } from 'react-icons/bi';
 import SubmissionContentBox from '../../ui/SubmissionContentBox';
 import { useState } from 'react';
 import Button from '../../ui/Button';
+import { useSubmitComment } from './useSubmitComment';
 
 export default function CommentSubmissionForm({ postId }) {
     // Implement later (leave as is, for now)
     const [content, setContent] = useState('');
+    const { submitComment, isLoading: isSubmittingComment } =
+        useSubmitComment();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -13,12 +16,23 @@ export default function CommentSubmissionForm({ postId }) {
             return;
         }
 
-        console.log('submitted!');
+        const commentContent = content;
+
+        submitComment(
+            { commentContent, postId },
+            {
+                onSettled: () => {
+                    setContent((cc) => {
+                        return '';
+                    });
+                },
+            },
+        );
     }
 
     return (
         <form
-        className='mb-6'
+            className='mb-6'
             onSubmit={(e) => {
                 handleSubmit(e);
             }}
@@ -26,7 +40,7 @@ export default function CommentSubmissionForm({ postId }) {
             <div>
                 <SubmissionContentBox
                     placeholder='Add a comment'
-                    className="rounded-lg"
+                    className='rounded-lg'
                     value={content}
                     onChange={(e) => {
                         setContent((cc) => {
@@ -36,7 +50,7 @@ export default function CommentSubmissionForm({ postId }) {
                 ></SubmissionContentBox>
             </div>
             <div>
-                <Button>
+                <Button disabled={isSubmittingComment}>
                     Comment<BiSend></BiSend>
                 </Button>
             </div>

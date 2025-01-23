@@ -19,4 +19,24 @@ export async function getCommentsFromPostId(postId) {
     return comments;
 }
 
-export async function submitComment() {}
+// Submit a Comment to a post
+export async function submitComment({ commentContent, postId }) {
+    console.log(`retrieved comment content: `, commentContent);
+
+    // Get user saved in local storage
+    const { data: userData } = await supabase.auth.getUser();
+
+    // Comments table schema: id, created_at (both are autofilled), post_id, created_by
+    const { data, error } = await supabase
+        .from('comments')
+        .insert([
+            { content: commentContent, post_id: postId, created_by: userData.user.id },
+        ])
+        .select();
+
+    if (error) {
+        console.log('Comment could not be submitted: ', error);
+    }
+
+    return data;
+}
