@@ -1,17 +1,9 @@
 import CommentItem from './CommentItem';
 import { useLoadComments } from './useLoadComments';
 
-export default function CommentsTable({ postId }) {
-    // Get comments from comments table
-    const { isLoading: isLoadingComments, commentsForPost } =
-        useLoadComments(postId);
-
-    if (isLoadingComments) {
-        return <div>Loading...</div>;
-    }
-
+export default function CommentsTable({ commentsForPost }) {
     return (
-        <div className='mx-auto max-w-4xl space-y-2 px-4'>
+        <div className='mx-auto max-w-4xl space-y-2'>
             {commentsForPost.map((comment) => {
                 return (
                     <CommentItem
