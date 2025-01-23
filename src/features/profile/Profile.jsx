@@ -15,6 +15,6 @@ export default function Profile() {
 
     return <div>
         <div>User: {username}</div>
-        <div><div>Submissions: </div><PostsTable posts={userPosts}></PostsTable></div>
+        <div><div>Submissions and comments: </div><PostsTable posts={userPosts}></PostsTable></div>
     </div>;
 }

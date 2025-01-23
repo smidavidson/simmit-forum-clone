@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { usePost } from './usePost';
 import CommentsTable from '../comments/CommentsTable';
+import DisplayComments from '../comments/DisplayComments';
 
 export default function DisplayPost() {
+    const {postId} = useParams();
     const navigate = useNavigate();
 
     const { post, isLoading } = usePost();
@@ -17,7 +19,7 @@ export default function DisplayPost() {
             <div>Title: {post.title}</div>
             <div>Content: {post.content}</div>
             <div>
-                <CommentsTable postId={post.id}></CommentsTable>
+                <DisplayComments postId={postId}></DisplayComments>
             </div>
         </div>
     );

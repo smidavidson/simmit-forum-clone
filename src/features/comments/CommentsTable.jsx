@@ -1,3 +1,5 @@
 export default function CommentsTable({postId}) {
-    return <div>Comments here from post: {postId}</div>
+    // Get comments from comments table
+
+    return <div>Current comments for Post: {postId}</div>
 }
