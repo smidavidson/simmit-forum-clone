@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSubmitPost from './useSubmitPost';
+import SubmissionContentBox from '../../ui/SubmissionContentBox';
+import { BiSend } from 'react-icons/bi';
 
 export default function SubmitForm() {
     const [title, setTitle] = useState();
@@ -33,7 +35,7 @@ export default function SubmitForm() {
 
     return (
         <div>
-            Submit Form for New Post
+            <h2>Create post</h2>
             <div>
                 <form
                     onSubmit={(e) => {
@@ -41,7 +43,7 @@ export default function SubmitForm() {
                     }}
                 >
                     <div>
-                        <label>Title: {title}</label>
+                        <label>Title{title}</label>
                         <input
                             value={title}
                             onChange={(e) => {
@@ -52,26 +54,22 @@ export default function SubmitForm() {
                         ></input>
                     </div>
                     <div>
-                        <label>Content: {content}</label>
-                        <input
+                        <label htmlFor='post-content'>Body{content}</label>
+                        <SubmissionContentBox
+                            id='post-content'
                             value={content}
                             onChange={(e) => {
                                 setContent((cc) => {
                                     return e.target.value;
                                 });
                             }}
-                        ></input>
+                            placeholder='Say something about your post!'
+                        ></SubmissionContentBox>
                     </div>
-                    <button>Submit Post</button>
+                    <button>
+                        Post<BiSend></BiSend>
+                    </button>
                 </form>
-
-                <button
-                    onClick={() => {
-                        navigate(-1);
-                    }}
-                >
-                    Back
-                </button>
             </div>
         </div>
     );
