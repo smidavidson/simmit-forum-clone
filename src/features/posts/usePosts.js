@@ -3,8 +3,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../services/apiPosts';
 
+// Returns 
 export function usePosts() {
-
     // Data returned from queryFn is always returned as 'data' regardless of renaming FYI
     const {
         isLoading,

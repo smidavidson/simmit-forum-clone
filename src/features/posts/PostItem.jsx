@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
 
 export default function PostItem({ post }) {
-    const timeAgo = formatDistance(new Date(post.created_at), new Date(), {
+    const postTimeAgo = formatDistance(new Date(post.created_at), new Date(), {
         addSuffix: true,
     });
 
     return (
-        <div className='rounded-md border bg-white p-2 shadow-sm'>
+        <div className='rounded-md bg-white border border-gray-200 p-2 shadow-sm'>
             <h2 className='text-md mb-1 font-medium'>
                 <Link to={`/post/${post.id}`}>{post.title}</Link>
             </h2>
@@ -22,7 +22,7 @@ export default function PostItem({ post }) {
                 <Link to={`/post/${post.id}`} className='text-gray-700'>
                     X comments
                 </Link>{' '}
-                • {timeAgo}
+                • {postTimeAgo}
             </div>
         </div>
     );

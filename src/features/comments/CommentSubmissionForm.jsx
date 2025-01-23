@@ -1,6 +1,7 @@
 import { BiSend } from "react-icons/bi";
 
-export default function CommentSubmissionForm({postTitle}) {
+export default function CommentSubmissionForm() {
+    // Implement later (leave as is, for now)
     return (
         <form>
             <div>

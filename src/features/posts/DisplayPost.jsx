@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { usePost } from './usePost';
-import CommentsTable from '../comments/CommentsTable';
 import DisplayComments from '../comments/DisplayComments';
 
 export default function DisplayPost() {
+    // Get postId from URL
     const {postId} = useParams();
     const navigate = useNavigate();
 

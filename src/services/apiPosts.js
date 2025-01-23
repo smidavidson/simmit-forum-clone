@@ -2,7 +2,7 @@
 
 import supabase from './supabase';
 
-// Get all Posts
+// Get all Posts from Posts table
 export async function getPosts() {
     let query = supabase.from('posts').select(`*, profiles(username)`);
 
@@ -16,7 +16,7 @@ export async function getPosts() {
     return posts;
 }
 
-// Get post given a Post ID
+// Get a specific single Post record given a Post ID
 export async function getPost(id) {
     const { data: post, error } = await supabase
         .from('posts')
