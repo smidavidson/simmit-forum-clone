@@ -1,10 +1,16 @@
 import supabase from './supabase';
 
-export async function getCommentsFromPostId(postId) {
+export async function getCommentsFromPostId(
+    postId,
+    sortBy = { field: 'created_at', direction: 'desc' },
+) {
     let query = supabase
         .from('comments')
         .select(`*, profiles(username)`)
-        .eq('post_id', postId);
+        .eq('post_id', postId)
+        .order(sortBy.field, {
+            ascending: sortBy.direction === 'asc',
+        });
 
     const { data: comments, error } = await query;
 
@@ -30,7 +36,11 @@ export async function submitComment({ commentContent, postId }) {
     const { data, error } = await supabase
         .from('comments')
         .insert([
-            { content: commentContent, post_id: postId, created_by: userData.user.id },
+            {
+                content: commentContent,
+                post_id: postId,
+                created_by: userData.user.id,
+            },
         ])
         .select();
 

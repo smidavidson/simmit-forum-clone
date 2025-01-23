@@ -90,7 +90,7 @@ export default function LoginForm() {
                 </div>
                 <div className='outline-solid mt-8 w-full rounded-md px-4 py-3 border-2 border-gray-400 text-center'>
                     New to Simmit?{" "}
-                    <Link className="text-blue-700 hover:underline">Create an account</Link>
+                    <Link to={'/signup'} className="text-blue-700 hover:underline">Create an account</Link>
                 </div>
             </form>
         </div>

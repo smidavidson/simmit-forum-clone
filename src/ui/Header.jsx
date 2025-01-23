@@ -16,9 +16,6 @@ export default function Header() {
     const { user, profile, isLoading } = useUser();
     const { logout, isLoading: isLoggingOut } = useLogout();
 
-    // Debug, check that it exists
-    console.log(user?.id);
-
     if (isLoading) {
         return <div>Loading...</div>;
     }

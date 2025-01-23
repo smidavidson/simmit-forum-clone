@@ -8,6 +8,7 @@ import Post from './pages/Post';
 import SubmitPost from './pages/SubmitPost';
 import ProtectedRoute from './ui/ProtectedRoute';
 import Profile from './features/profile/Profile';
+import SignupForm from './features/authentication/SignupForm';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login></Login>,
+            },
+            {
+                path: '/signup',
+                element: <SignupForm></SignupForm>,
             },
             {
                 path: '/post/:postId',

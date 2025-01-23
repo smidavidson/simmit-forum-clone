@@ -3,8 +3,10 @@
 import supabase from './supabase';
 
 // Get all Posts from Posts table
-export async function getPosts() {
-    let query = supabase.from('posts').select(`*, profiles(username)`);
+export async function getPosts(sortBy = {field: "created_at", direction: "desc"}) {
+    let query = supabase.from('posts').select(`*, profiles(username)`).order(sortBy.field, {
+        ascending: sortBy.direction === "asc",
+    });
 
     const { data: posts, error } = await query;
 
