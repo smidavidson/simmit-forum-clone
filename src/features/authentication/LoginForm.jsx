@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLogin } from './useLogin';
+import { Link } from 'react-router-dom';
 
 export default function LoginForm() {
     // temporary fill in with test account data
@@ -86,6 +87,10 @@ export default function LoginForm() {
                     >
                         Login
                     </button>
+                </div>
+                <div className='outline-solid mt-8 w-full rounded-md px-4 py-3 border-2 border-gray-400 text-center'>
+                    New to Simmit?{" "}
+                    <Link className="text-blue-700 hover:underline">Create an account</Link>
                 </div>
             </form>
         </div>
