@@ -1,5 +1,6 @@
 // File for directly dealing with any auth related supabase stuff
 
+import toast from 'react-hot-toast';
 import supabase from './supabase';
 
 // Used to login
@@ -10,11 +11,10 @@ export async function login({ email, password }) {
         password: password,
     });
 
-    console.log(sessionData);
-
     if (error) {
-        console.log('Error logging in apiAuth: ', error);
+        toast.error(error.message);
     }
+
 
     return sessionData;
 }
@@ -70,7 +70,7 @@ export async function signup({ username, email, password }) {
         },
     });
 
-    console.log("apiAuth: ", data);
+    console.log('apiAuth: ', data);
     console.log(error);
 
     // (If confirm email is disabled) AuthApiError returned with message: "User already registered"

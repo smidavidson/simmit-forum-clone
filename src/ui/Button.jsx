@@ -8,13 +8,13 @@ export default function Button({
     className,
     children,
     disabled,
-    variant = "small",
+    variant = 'small',
 }) {
     return (
         <button
             onClick={onClick}
             disabled={disabled}
-            className={`${variants[variant]} ${className}`}
+            className={`${variants[variant]} ${className} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
         >
             {children}
         </button>

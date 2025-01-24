@@ -9,6 +9,7 @@ import SubmitPost from './pages/SubmitPost';
 import ProtectedRoute from './ui/ProtectedRoute';
 import Profile from './features/profile/Profile';
 import SignupForm from './features/authentication/SignupForm';
+import { Toaster } from 'react-hot-toast';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -60,6 +61,23 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <RouterProvider router={router}></RouterProvider>
             <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
+            <Toaster
+                position='bottom-center'
+                gutter={12}
+                containerStyle={{ margin: '8px', marginBottom: '100px' }}
+                toastOptions={{
+                    className: 'bg-white text-gray-700 shadow-lg',
+                    success: {
+                        duration: 2000,
+                        className: 'bg-white text-green-500',
+                    },
+
+                    error: {
+                        duration: 2000,
+                        className: 'bg-white text-red-500',
+                    },
+                }}
+            ></Toaster>
         </QueryClientProvider>
     );
 }

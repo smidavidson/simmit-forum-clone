@@ -2,6 +2,7 @@ import { useLogin } from './useLogin';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import FormErrorMessage from '../../ui/FormErrorMessage';
+import Button from '../../ui/Button';
 
 export default function LoginForm() {
     const { login, isLoading } = useLogin();
@@ -12,7 +13,6 @@ export default function LoginForm() {
         if (!email || !password) {
             return;
         }
-        console.log(email, password);
 
         login(
             { email, password },
@@ -32,7 +32,7 @@ export default function LoginForm() {
                     <div className='flex flex-col'>
                         <label
                             htmlFor='email-input'
-                            className='mb-1 font-medium inline-flex items-center'
+                            className='mb-1 inline-flex items-center font-medium'
                         >
                             Email{' '}
                             {errors?.email?.message && (
@@ -54,7 +54,7 @@ export default function LoginForm() {
                     <div className='flex flex-col'>
                         <label
                             htmlFor='password-input'
-                            className='mb-1 font-medium inline-flex items-center'
+                            className='mb-1 inline-flex items-center font-medium'
                         >
                             Password{' '}
                             {errors?.password?.message && (
@@ -75,12 +75,9 @@ export default function LoginForm() {
                     </div>
                 </div>
                 <div className='mt-10'>
-                    <button
-                        disabled={isLoading}
-                        className='w-full rounded-md bg-gray-800 px-4 py-3 text-white'
-                    >
+                    <Button disabled={isLoading} variant='auth'>
                         Login
-                    </button>
+                    </Button>
                 </div>
                 <div className='outline-solid mt-8 w-full rounded-md border-2 border-gray-400 px-4 py-3 text-center'>
                     New to Simmit?{' '}

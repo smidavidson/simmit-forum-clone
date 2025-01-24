@@ -57,7 +57,7 @@ export default function SignupForm() {
         <div className='mx-auto mt-8 max-w-md px-4'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className='mb-6 text-2xl font-semibold'>
-                    Create an account
+                    Create a Simmit account
                 </h2>
                 <div className='space-y-6'>
                     <div className='flex flex-col'>
@@ -178,7 +178,9 @@ export default function SignupForm() {
                     </div>
                 </div>
                 <div className='mt-10'>
-                    <Button variant='auth'>Create Account</Button>
+                    <Button variant='auth' disabled={isSigningUp}>
+                        Create Account
+                    </Button>
                 </div>
             </form>
         </div>
