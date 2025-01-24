@@ -50,7 +50,7 @@ export default function CommentSubmissionForm({ postId }) {
                 ></SubmissionContentBox>
             </div>
             <div>
-                <Button disabled={isSubmittingComment}>
+                <Button disabled={isSubmittingComment} variant='small'>
                     Comment<BiSend></BiSend>
                 </Button>
             </div>

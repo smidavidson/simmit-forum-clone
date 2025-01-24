@@ -7,7 +7,7 @@ export default function PostItem({ post }) {
     });
 
     return (
-        <div className='rounded-md bg-white border border-gray-200 p-2 shadow-sm'>
+        <div className='rounded-md border border-gray-200 bg-white p-2 shadow-sm'>
             <h2 className='text-md mb-1 font-medium'>
                 <Link to={`/post/${post.id}`}>{post.title}</Link>
             </h2>
@@ -20,7 +20,7 @@ export default function PostItem({ post }) {
                 </Link>{' '}
                 •{' '}
                 <Link to={`/post/${post.id}`} className='text-gray-700'>
-                    X comments
+                    {post.comment_count} comments
                 </Link>{' '}
                 • {postTimeAgo}
             </div>
