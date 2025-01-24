@@ -46,6 +46,8 @@ export async function getCurrentUser() {
 }
 
 export async function signup({ username, email, password }) {
+    const errors = [];
+
     // Check if username already exists
     const { data: existingUser } = await supabase
         .from('profiles')
@@ -54,7 +56,7 @@ export async function signup({ username, email, password }) {
         .maybeSingle();
 
     if (existingUser) {
-        throw new Error('Username already taken');
+        errors.push('Username already taken');
     }
 
     const { data, error } = await supabase.auth.signUp({
@@ -68,15 +70,26 @@ export async function signup({ username, email, password }) {
         },
     });
 
+    console.log("apiAuth: ", data);
+    console.log(error);
 
-    // If user identities array is empty then email has already been used
-    const userAlreadyExists = data?.user?.identities?.length === 0;
-    if (userAlreadyExists) {
-        throw new Error('User already registered');
+    // (If confirm email is disabled) AuthApiError returned with message: "User already registered"
+    const userAlreadyExistsConfirmEmail =
+        error?.message === 'User already registered';
+    if (userAlreadyExistsConfirmEmail) {
+        // console.log("bro: ", userAlreadyExistsConfirmEmail)
+        errors.push('User already registered');
     }
 
-    if (error) {
-        throw new Error(error.message);
+    // (If confirm email is enabled) Fake user data is returned with a empty user identities array which means email has already been used
+    const userAlreadyExists = data?.user?.identities?.length === 0;
+    if (userAlreadyExists) {
+        // console.log("bro: ", userAlreadyExists)
+        errors.push('User already registered');
+    }
+
+    if (errors.length != 0) {
+        throw new Error(JSON.stringify(errors));
     }
 
     return data;

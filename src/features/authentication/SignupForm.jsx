@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import useSignup from './useSignup';
 import Button from '../../ui/Button';
+import FormErrorMessage from '../../ui/FormErrorMessage';
 
 export default function SignupForm() {
     const { signup, isLoading: isSigningUp } = useSignup();
@@ -14,7 +15,13 @@ export default function SignupForm() {
     const [apiUsernameError, setApiUsernameError] = useState('');
     const [apiEmailError, setApiEmailError] = useState('');
 
+    console.log(errors);
+
     function onSubmit({ username, email, password }) {
+        if (!username || !email || !password) {
+            return;
+        }
+
         setApiUsernameError((ue) => {
             return '';
         });
@@ -28,14 +35,18 @@ export default function SignupForm() {
                     // Do nothing
                 },
                 onError: (err) => {
-                    if (err.message.includes('Username')) {
-                        setApiUsernameError((ue) => {
-                            return err.message;
-                        });
-                        return;
-                    }
-                    setApiEmailError((ue) => {
-                        return 'Email address already registered';
+                    console.log(err);
+                    const errors = JSON.parse(err.message);
+                    errors.forEach((error) => {
+                        if (error.includes('Username')) {
+                            setApiUsernameError((ue) => {
+                                return error;
+                            });
+                        } else if (error.includes('User')) {
+                            setApiEmailError((ue) => {
+                                return 'Email address already registered';
+                            });
+                        }
                     });
                 },
             },
@@ -50,10 +61,17 @@ export default function SignupForm() {
                 </h2>
                 <div className='space-y-6'>
                     <div className='flex flex-col'>
-                        <label htmlFor='username' className='mb-1 font-medium'>
+                        <label
+                            htmlFor='username'
+                            className='mb-1 inline-flex items-center font-medium'
+                        >
                             Username{' '}
-                            {apiUsernameError && (
-                                <ErrorMessage>{apiUsernameError}</ErrorMessage>
+                            {(errors?.username?.message ||
+                                apiUsernameError) && (
+                                <FormErrorMessage>
+                                    {apiUsernameError ||
+                                        errors?.username?.message}
+                                </FormErrorMessage>
                             )}
                         </label>
                         <input
@@ -62,15 +80,30 @@ export default function SignupForm() {
                             autoComplete='off'
                             {...register('username', {
                                 required: 'This field is required',
+                                minLength: {
+                                    value: 5,
+                                    message:
+                                        'Username must be at least 5 characters',
+                                },
+                                onChange: () => {
+                                    setApiUsernameError((ue) => {
+                                        return '';
+                                    });
+                                },
                             })}
                             className='rounded-md border px-3 py-2'
                         ></input>
                     </div>
                     <div className='flex flex-col'>
-                        <label htmlFor='email' className='mb-1 font-medium'>
+                        <label
+                            htmlFor='email'
+                            className='mb-1 inline-flex items-center font-medium'
+                        >
                             Email{' '}
-                            {apiEmailError && (
-                                <ErrorMessage>{apiEmailError}</ErrorMessage>
+                            {(errors?.email?.message || apiEmailError) && (
+                                <FormErrorMessage>
+                                    {apiEmailError || errors?.email?.message}
+                                </FormErrorMessage>
                             )}
                         </label>
                         <input
@@ -84,6 +117,11 @@ export default function SignupForm() {
                                     message:
                                         'Please provide a valid email address',
                                 },
+                                onChange: () => {
+                                    setApiEmailError((ee) => {
+                                        return '';
+                                    });
+                                },
                             })}
                             className='rounded-md border px-3 py-2'
                         ></input>
@@ -91,13 +129,13 @@ export default function SignupForm() {
                     <div className='flex flex-col'>
                         <label
                             htmlFor='password-input'
-                            className='mb-1 font-medium'
+                            className='mb-1 inline-flex items-center font-medium'
                         >
                             Password{' '}
                             {errors?.password?.message && (
-                                <ErrorMessage>
+                                <FormErrorMessage>
                                     {errors?.password?.message}
-                                </ErrorMessage>
+                                </FormErrorMessage>
                             )}
                         </label>
                         <input
@@ -145,8 +183,4 @@ export default function SignupForm() {
             </form>
         </div>
     );
-}
-
-function ErrorMessage({ children }) {
-    return <span className='ml-2 text-red-500'>{children}</span>;
 }
