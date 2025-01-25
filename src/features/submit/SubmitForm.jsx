@@ -9,7 +9,8 @@ import Button from '../../ui/Button';
 import FormRequiredAsterix from '../../ui/FormRequiredAsterix';
 
 const labelClass = 'mb-1 font-medium inline-flex items-center';
-const inputClass = 'rounded-md border px-2 py-2';
+const inputBoxClass = 'rounded-md border px-2 py-2';
+const inputDivClass = 'flex flex-col pt-4'
 
 export default function SubmitForm() {
     const { register, formState, getValues, handleSubmit, reset } = useForm();
@@ -19,9 +20,9 @@ export default function SubmitForm() {
 
     const { submitPost, isLoading: isSubmitting } = useSubmitPost();
 
-    function onSubmit({ title, content, link_url }) {
+    function onSubmit({ title, content, link_url, image }) {
         submitPost(
-            { title, content, link_url },
+            { title, content, link_url: link_url?.toLowerCase(), image: image && image.length > 0 ? image[0] : undefined },
             {
                 onSettled: () => {
                     // Navigate to page of newly submitted post after submission?
@@ -36,7 +37,7 @@ export default function SubmitForm() {
             <h2 className='mb-6 text-2xl font-semibold'>Create post</h2>
             <div className='bg-white px-6'>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='flex flex-col'>
+                    <div className={inputDivClass}>
                         <label className={labelClass}>
                             Title<FormRequiredAsterix></FormRequiredAsterix>{' '}
                             {errors?.title?.message && (
@@ -46,15 +47,22 @@ export default function SubmitForm() {
                             )}
                         </label>
                         <input
-                            className={inputClass}
+                            className={inputBoxClass}
                             id='title'
                             type='text'
                             {...register('title', {
                                 required: 'This field is required',
                             })}
                         ></input>
+                        <div className='flex flex-col'>
+                            <label className={labelClass}>
+                                Select Flair
+                                <FormRequiredAsterix></FormRequiredAsterix>{' '}
+                            </label>
+                            <input></input>
+                        </div>
                     </div>
-                    <div className='flex flex-col'>
+                    <div className={inputDivClass}>
                         <label className={labelClass}>
                             Link{' '}
                             {errors?.link_url?.message && (
@@ -74,7 +82,24 @@ export default function SubmitForm() {
                             })}
                         ></input>
                     </div>
-                    <div className='flex flex-col'>
+                    <div className={inputDivClass}>
+                        <label className={labelClass}>
+                            Upload Image{' '}
+                            {errors?.link_url?.message && (
+                                <FormErrorMessage>
+                                    {errors?.link_url?.message}
+                                </FormErrorMessage>
+                            )}
+                        </label>
+                        <input
+                            className='rounded-md border px-2 py-2'
+                            id='image'
+                            type='file'
+                            accept='image/*'
+                            {...register('image')}
+                        ></input>
+                    </div>
+                    <div className={inputDivClass}>
                         <label className={labelClass}>
                             Body<FormRequiredAsterix></FormRequiredAsterix>{' '}
                             {errors?.content?.message && (

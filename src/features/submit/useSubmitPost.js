@@ -10,9 +10,9 @@ export default function useSubmitPost() {
         mutationFn: (newPost) => {
             return submitPostApi(newPost);
         },
-        onSuccess: () => {
+        onSuccess: (newPost) => {
             queryClient.invalidateQueries(['posts']);
-            navigate('/');
+            navigate(`/post/${newPost.id}`);
             // Not sure what to do here
         },
         onError: (error) => {
