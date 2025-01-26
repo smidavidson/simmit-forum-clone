@@ -10,19 +10,26 @@ import FormRequiredAsterix from '../../ui/FormRequiredAsterix';
 
 const labelClass = 'mb-1 font-medium inline-flex items-center';
 const inputBoxClass = 'rounded-md border px-2 py-2';
-const inputDivClass = 'flex flex-col pt-4'
+const inputDivClass = 'flex flex-col pt-4';
 
 export default function SubmitForm() {
     const { register, formState, getValues, handleSubmit, reset } = useForm();
     const { errors } = formState;
 
-    const navigate = useNavigate();
-
     const { submitPost, isLoading: isSubmitting } = useSubmitPost();
 
     function onSubmit({ title, content, link_url, image }) {
+        const formatUrl = (url) => {
+            return url.startsWith('http') ? url : `https://${url}`;
+        };
+
         submitPost(
-            { title, content, link_url: link_url?.toLowerCase(), image: image && image.length > 0 ? image[0] : undefined },
+            {
+                title,
+                content,
+                link_url: formatUrl(link_url?.toLowerCase()),
+                image: image?.[0],
+            },
             {
                 onSettled: () => {
                     // Navigate to page of newly submitted post after submission?

@@ -41,6 +41,8 @@ export async function getPost(id) {
 
 // Submit a post
 export async function submitPost(newPost) {
+    console.log('newPost: ', newPost);
+
     // Get user saved in local storage
     const { data: userData } = await supabase.auth.getUser();
 
@@ -85,8 +87,9 @@ export async function submitPost(newPost) {
             {
                 title: newPost.title,
                 content: newPost.content,
+                link_url: newPost.link_url || null,
                 created_by: userData.user.id,
-                link_url: newPost.image ? imageUrl : newPost.link_url,
+                image_url: imageUrl,
             },
         ])
         .select();
