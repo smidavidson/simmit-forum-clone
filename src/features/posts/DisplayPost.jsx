@@ -18,9 +18,9 @@ export default function DisplayPost() {
         <div className='mx-auto max-w-4xl p-4'>
             <div className='py-2'>
                 {post.link_url ? (
-                    <div className='mb-4 flex items-center'>
+                    <div className='mb-4 flex flex-wrap items-center'>
                         <a
-                            className='text-xl font-semibold'
+                            className='text-xl font-semibold mr-2'
                             href={
                                 post.link_url.startsWith('http')
                                     ? post.link_url
@@ -29,7 +29,7 @@ export default function DisplayPost() {
                         >
                             {post.title}
                         </a>
-                        <div className='mx-2 flex items-center text-sm font-thin text-gray-500'>
+                        <div className='flex items-center text-sm font-thin text-gray-500'>
                             ({post?.link_url})
                         </div>
                     </div>
