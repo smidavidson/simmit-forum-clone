@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useUser } from '../features/authentication/useUser';
+import { useUserAndProfile } from '../features/authentication/useUserAndProfile';
 import {
     BiBell,
     BiEdit,
@@ -13,7 +13,7 @@ import {
 import useLogout from '../features/authentication/useLogout';
 
 export default function Header() {
-    const { user, profile, isLoading } = useUser();
+    const { user, profile, isLoading } = useUserAndProfile();
     const { logout, isLoading: isLoggingOut } = useLogout();
 
     if (isLoading) {

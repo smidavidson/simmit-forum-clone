@@ -9,7 +9,7 @@ export function usePost() {
     const { postId } = useParams();
 
     const {
-        isLoading,
+        isLoading: isLoadingPost,
         data: post,
         error,
     } = useQuery({
@@ -22,5 +22,5 @@ export function usePost() {
         console.log('Error fetching posts in usePost: ', error);
     }
 
-    return { isLoading, post };
+    return { isLoadingPost, post };
 }

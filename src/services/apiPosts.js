@@ -39,6 +39,26 @@ export async function getPost(id) {
     return post;
 }
 
+// For now just deletes the post
+export async function updatePost(postId) {
+    console.log('Attempting to update post:', postId);
+
+    // Don't need to pass anything
+    const { data: post, error } = await supabase
+        .from('posts')
+        .update({})
+        .eq('id', postId)
+        .select();
+
+    if (error) {
+        toast.error(error.message);
+        throw new Error(error.message);
+    }
+
+    console.log('Post update result:', post);
+    return postId;
+}
+
 // Submit a post
 export async function submitPost(newPost) {
     console.log('newPost: ', newPost);

@@ -1,55 +1,94 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { usePost } from './usePost';
 import DisplayComments from '../comments/DisplayComments';
+import { useUser } from '../authentication/useUser';
+import { formatDistancePost } from '../../utils/helpers';
+import Button from '../../ui/Button';
+import { useUpdatePost } from './useUpdatePost';
 
 export default function DisplayPost() {
     // Get postId from URL
     const { postId } = useParams();
     const navigate = useNavigate();
 
-    const { post, isLoading } = usePost();
+    const { post, isLoadingPost } = usePost();
+    const { user, isUserLoading } = useUser();
+    const { updatePost, isUpdatingPost } = useUpdatePost();
 
-    if (isLoading) {
+    if (isLoadingPost || isUserLoading) {
         return <div>Loading...</div>;
     }
 
-    // For now just display the postId
+    let isDeletable = false;
+    // If user is logged show delete post option
+    if (user) {
+        if (user.id === post.created_by) isDeletable = true;
+    }
+
     return (
         <div className='mx-auto max-w-4xl p-4'>
-            <div className='py-2'>
-                {post.link_url ? (
-                    <div className='mb-4 flex flex-wrap items-center'>
-                        <a
-                            className='text-xl font-semibold mr-2'
-                            href={
-                                post.link_url.startsWith('http')
-                                    ? post.link_url
-                                    : `https://${post.link_url}`
-                            }
-                        >
-                            {post.title}
-                        </a>
-                        <div className='flex items-center text-sm font-thin text-gray-500'>
-                            ({post?.link_url})
-                        </div>
-                    </div>
-                ) : (
-                    <h2 className='mb-4 text-xl font-semibold'>{post.title}</h2>
-                )}
-
-                <div className='mb-4 rounded-md border bg-white p-2 text-gray-800'>
-                    {post.image_url && (
-                        <div className='mb-4 flex justify-center'>
-                            <a href={post.image_url}>
-                                <img
-                                    src={post.image_url}
-                                    alt={post.title}
-                                    className='w-full max-w-[500px] cursor-pointer rounded-md border hover:opacity-90'
-                                ></img>
+            <div className=''>
+                <div className='mb-4'>
+                    {post.link_url ? (
+                        <div className='flex flex-wrap items-center'>
+                            <a
+                                className='mr-2 text-xl font-semibold'
+                                href={
+                                    post.link_url.startsWith('http')
+                                        ? post.link_url
+                                        : `https://${post.link_url}`
+                                }
+                            >
+                                {post.title}
                             </a>
+                            <div className='flex items-center text-sm font-thin text-gray-500'>
+                                ({post?.link_url})
+                            </div>
+                        </div>
+                    ) : (
+                        <h2 className='text-xl font-semibold'>{post.title}</h2>
+                    )}
+                    <div className='mt-1 flex flex-wrap text-sm text-gray-500'>
+                        <div>
+                            <span>Submitted by </span>
+                            <Link
+                                to={`/user/${post.profiles.username}`}
+                                className='text-gray-700'
+                            >
+                                {post.profiles.username}
+                            </Link>
+                        </div>
+                        <div>&nbsp;•&nbsp;</div>
+                        <div>{formatDistancePost(post.created_at)}</div>
+                    </div>
+                </div>
+                <div className='mb-4'>
+                    <div className='rounded-md border bg-white p-2 text-gray-800'>
+                        {post.image_url && (
+                            <div className='mb-4 flex justify-center'>
+                                <a href={post.image_url}>
+                                    <img
+                                        src={post.image_url}
+                                        alt={post.title}
+                                        className='w-full max-w-[500px] cursor-pointer rounded-md border hover:opacity-90'
+                                    ></img>
+                                </a>
+                            </div>
+                        )}
+                        <div>{post.content}</div>
+                    </div>
+                    {isDeletable && (
+                        <div>
+                            <Button
+                                className='mt-2 bg-red-500 hover:bg-red-600'
+                                variant='tiny'
+                                disabled={isUpdatingPost}
+                                onClick={() => updatePost(postId)}
+                            >
+                                Delete post
+                            </Button>
                         </div>
                     )}
-                    {post.content}
                 </div>
             </div>
             <div>
