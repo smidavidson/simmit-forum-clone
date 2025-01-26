@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import supabase from './supabase';
 
 export async function getCommentsFromPostId(
@@ -15,13 +16,36 @@ export async function getCommentsFromPostId(
     const { data: comments, error } = await query;
 
     if (error) {
+        toast.error(error.message);
         console.log('Error fetching comments in apiComments: ', error);
+        throw new Error(error.message);
     }
 
     console.log('postId:', postId);
     console.log('query result:', comments);
 
     // FYI, React query will rename this as data anyways, so renaming it here makes no difference
+    return comments;
+}
+
+export async function getCommentsFromUsername({ username }) {
+    let query = supabase
+        .from('comments')
+        .select(`*, profiles(username)`)
+        .eq('username', username);
+
+    const { data: comments, error } = await query;
+
+    if (error) {
+        toast.error(error.message);
+        console.log(
+            `Error fetching comments for user: ${username} in apiComments: `,
+            error,
+        );
+        throw new Error(error.message);
+    }
+
+    console.log('query result:', comments);
     return comments;
 }
 
