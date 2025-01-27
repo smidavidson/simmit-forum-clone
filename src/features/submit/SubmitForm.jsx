@@ -19,9 +19,12 @@ export default function SubmitForm() {
     const { submitPost, isLoading: isSubmitting } = useSubmitPost();
 
     function onSubmit({ title, content, link_url, image }) {
-        const formatUrl = (url) => {
-            return url.startsWith('http') ? url : `https://${url}`;
-        };
+        function formatUrl(url) {
+            if (url) {
+                return url.startsWith('http') ? url : `https://${url}`;
+            }
+            return url;
+        }
 
         submitPost(
             {
