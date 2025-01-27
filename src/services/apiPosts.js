@@ -10,6 +10,7 @@ export async function getPosts(
     let query = supabase
         .from('posts')
         .select(`*, profiles(username)`)
+        .eq('is_deleted', false)
         .order(sortBy.field, {
             ascending: sortBy.direction === 'asc',
         });
@@ -39,14 +40,14 @@ export async function getPost(id) {
     return post;
 }
 
-// For now just deletes the post
+// This actually deletes the post (but deletion does not actually delete the record, it only sets some columns to null)
 export async function updatePost(postId) {
     console.log('Attempting to update post:', postId);
 
     // Don't need to pass anything
     const { data: post, error } = await supabase
         .from('posts')
-        .update({})
+        .update({ is_deleted: true })
         .eq('id', postId)
         .select();
 

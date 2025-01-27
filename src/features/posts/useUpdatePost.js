@@ -9,7 +9,10 @@ export function useUpdatePost() {
         mutationFn: (postId) => updatePostApi(postId),
         onSuccess: (postId) => {
             toast.success('Post successfully updated');
+            // Invalidate the post we just deleted
             queryClient.invalidateQueries({ queryKey: ['post', postId] });
+            // Invalidate front page posts
+            queryClient.invalidateQueries({ queryKey: ['posts'] });
         },
     });
 

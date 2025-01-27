@@ -25,6 +25,8 @@ export default function DisplayPost() {
         if (user.id === post.created_by) isDeletable = true;
     }
 
+    console.log(post);
+
     return (
         <div className='mx-auto max-w-4xl p-4'>
             <div className=''>
@@ -39,24 +41,25 @@ export default function DisplayPost() {
                                         : `https://${post.link_url}`
                                 }
                             >
-                                {post.title}
+                                {post?.title ? <span>{post?.title}</span> : <span>{"[deleted]"}</span>}
                             </a>
                             <div className='flex items-center text-sm font-thin text-gray-500'>
                                 ({post?.link_url})
                             </div>
                         </div>
                     ) : (
-                        <h2 className='text-xl font-semibold'>{post.title}</h2>
+                        <h2 className='text-xl font-semibold'>{post?.title ? <span>{post?.title}</span> : <span>{"[deleted]"}</span>}</h2>
                     )}
                     <div className='mt-1 flex flex-wrap text-sm text-gray-500'>
                         <div>
                             <span>Submitted by </span>
-                            <Link
+                            {post?.profiles?.username ? <Link
                                 to={`/user/${post.profiles.username}`}
                                 className='text-gray-700'
                             >
                                 {post.profiles.username}
-                            </Link>
+                            </Link> : <span>{"[deleted]"}</span>}
+                            
                         </div>
                         <div>&nbsp;•&nbsp;</div>
                         <div>{formatDistancePost(post.created_at)}</div>
@@ -75,7 +78,7 @@ export default function DisplayPost() {
                                 </a>
                             </div>
                         )}
-                        <div>{post.content}</div>
+                        <div>{post?.content ? <span>{post.content}</span> : <span>{"[deleted]"}</span> }</div>
                     </div>
                     {isDeletable && (
                         <div>
