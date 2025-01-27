@@ -41,25 +41,38 @@ export default function DisplayPost() {
                                         : `https://${post.link_url}`
                                 }
                             >
-                                {post?.title ? <span>{post?.title}</span> : <span>{"[deleted]"}</span>}
+                                {post?.title ? (
+                                    <span>{post?.title}</span>
+                                ) : (
+                                    <span>{'[deleted]'}</span>
+                                )}
                             </a>
                             <div className='flex items-center text-sm font-thin text-gray-500'>
                                 ({post?.link_url})
                             </div>
                         </div>
                     ) : (
-                        <h2 className='text-xl font-semibold'>{post?.title ? <span>{post?.title}</span> : <span>{"[deleted]"}</span>}</h2>
+                        <h2 className='text-xl font-semibold'>
+                            {post?.is_deleted ? (
+                                <span>{'[deleted]'}</span>
+                            ) : (
+                                <span>{post?.title}</span>
+                            )}
+                        </h2>
                     )}
                     <div className='mt-1 flex flex-wrap text-sm text-gray-500'>
                         <div>
                             <span>Submitted by </span>
-                            {post?.profiles?.username ? <Link
-                                to={`/user/${post.profiles.username}`}
-                                className='text-gray-700'
-                            >
-                                {post.profiles.username}
-                            </Link> : <span>{"[deleted]"}</span>}
-                            
+                            {post?.is_deleted ? (
+                                <span>{'[deleted]'}</span>
+                            ) : (
+                                <Link
+                                    to={`/user/${post.profiles.username}`}
+                                    className='text-gray-700'
+                                >
+                                    {post.profiles.username}
+                                </Link>
+                            )}
                         </div>
                         <div>&nbsp;•&nbsp;</div>
                         <div>{formatDistancePost(post.created_at)}</div>
@@ -78,24 +91,33 @@ export default function DisplayPost() {
                                 </a>
                             </div>
                         )}
-                        <div>{post?.content ? <span>{post.content}</span> : <span>{"[deleted]"}</span> }</div>
+                        <div>
+                            {post?.is_deleted ? (
+                                <span>{'[deleted]'}</span>
+                            ) : (
+                                <span>{post.content}</span>
+                            )}
+                        </div>
                     </div>
                     {isDeletable && (
                         <div>
                             <Button
-                                className='mt-2 bg-red-500 hover:bg-red-600'
-                                variant='tiny'
+                                className='mt-2 cursor-pointer text-red-500'
+                                variant='inline'
                                 disabled={isUpdatingPost}
                                 onClick={() => updatePost(postId)}
                             >
-                                Delete post
+                                delete
                             </Button>
                         </div>
                     )}
                 </div>
             </div>
             <div>
-                <DisplayComments postId={postId}></DisplayComments>
+                <DisplayComments
+                    postId={postId}
+                    userId={user?.id}
+                ></DisplayComments>
             </div>
         </div>
     );

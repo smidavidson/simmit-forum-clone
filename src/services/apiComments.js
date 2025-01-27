@@ -49,6 +49,26 @@ export async function getCommentsFromUsername({ username }) {
     return comments;
 }
 
+// This actually deletes the post (but deletion does not actually delete the record, it only sets some columns to null)
+export async function updateComment(commentId) {
+    // console.log('Attempting to update comment:', commentId);
+
+    // Don't need to pass anything
+    const { data: comment, error } = await supabase
+        .from('comments')
+        .update({ is_deleted: true })
+        .eq('id', commentId)
+        .select();
+
+    if (error) {
+        toast.error(error.message);
+        throw new Error(error.message);
+    }
+
+    // console.log('Comment update result:', comment);
+    return comment;
+}
+
 // Submit a Comment to a post
 export async function submitComment({ commentContent, postId }) {
     console.log(`retrieved comment content: `, commentContent);

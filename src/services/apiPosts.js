@@ -42,7 +42,7 @@ export async function getPost(id) {
 
 // This actually deletes the post (but deletion does not actually delete the record, it only sets some columns to null)
 export async function updatePost(postId) {
-    console.log('Attempting to update post:', postId);
+    // console.log('Attempting to update post:', postId);
 
     // Don't need to pass anything
     const { data: post, error } = await supabase
@@ -56,7 +56,7 @@ export async function updatePost(postId) {
         throw new Error(error.message);
     }
 
-    console.log('Post update result:', post);
+    // console.log('Post update result:', post);
     return postId;
 }
 

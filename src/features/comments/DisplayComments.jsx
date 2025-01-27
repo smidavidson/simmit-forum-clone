@@ -2,7 +2,7 @@ import CommentsTable from './CommentsTable';
 import CommentSubmissionForm from './CommentSubmissionForm';
 import { useLoadComments } from './useLoadComments';
 
-export default function DisplayComments({ postId }) {
+export default function DisplayComments({ postId, userId = null }) {
     // Get comments from comments table
     const { isLoading: isLoadingComments, commentsForPost } =
         useLoadComments(postId);
@@ -18,7 +18,7 @@ export default function DisplayComments({ postId }) {
             </div>
             <hr className='mb-4 border-t-2 border-dotted'></hr>
             <CommentSubmissionForm postId={postId}></CommentSubmissionForm>
-            <CommentsTable commentsForPost={commentsForPost}></CommentsTable>
+            <CommentsTable commentsForPost={commentsForPost} userId={userId}></CommentsTable>
         </div>
     );
 }
