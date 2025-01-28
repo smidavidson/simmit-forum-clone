@@ -9,6 +9,8 @@ import {
     BiPlusCircle,
     BiSolidLogIn,
     BiSolidLogOut,
+    BiUserCheck,
+    BiUserCircle,
 } from 'react-icons/bi';
 import useLogout from '../features/authentication/useLogout';
 
@@ -39,11 +41,14 @@ export default function Header() {
                             <div>Loading...</div>
                         ) : user ? (
                             <>
-                                <Link>
-                                    <BiBell></BiBell>
-                                </Link>
-                                <Link to={`/user/${profile?.username}`}>
-                                    {profile?.username}
+                                <Link
+                                    className='flex flex-wrap items-center gap-1'
+                                    to={`/user/${profile?.username}`}
+                                >
+                                    <BiUserCircle></BiUserCircle>
+                                    <span className='ip-se2:inline hidden'>
+                                        {profile?.username}
+                                    </span>
                                 </Link>
                                 <button
                                     className='flex items-center gap-1'
@@ -52,7 +57,10 @@ export default function Header() {
                                     }}
                                     disabled={isLoggingOut}
                                 >
-                                    Logout<BiLogOut></BiLogOut>
+                                    <span className='ip-se2:inline hidden'>
+                                        Logout
+                                    </span>
+                                    <BiLogOut></BiLogOut>
                                 </button>
                             </>
                         ) : (
