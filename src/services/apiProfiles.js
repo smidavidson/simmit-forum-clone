@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+import { PAGE_SIZE } from '../utils/constants';
 import supabase from './supabase';
 
 // used to retrieve profile of a given user id (avatar, username, about, etc)
@@ -17,30 +19,37 @@ export async function getProfile(userId) {
 }
 
 // Retrieve posts given an username
-export async function getPostsWithUsername({username, sortBy = { field: 'created_at', direction: 'desc' }}) {
+export async function getPostsWithUsername({
+    username,
+    sortBy = { field: 'created_at', direction: 'desc' },
+    page,
+}) {
     console.log('getPosts: ', username);
 
-    const { data: posts, error } = await supabase
+    let query = supabase
         .from('posts')
-        .select(
-            `
-        *,
-        profiles!inner(username),
-        flairs(name, color)
-    `,
-        )
+        .select(`*, profiles!inner(username), flairs(name, color)`, {
+            count: 'exact',
+        })
         .eq('profiles.username', username)
         .order(sortBy.field, {
             ascending: sortBy.direction === 'asc',
         });
 
-
-    if (error) {
-        console.log(
-            'Error fetching user post data from apiProfiles.js: ',
-            error,
-        );
+    if (page) {
+        const from = (page - 1) * PAGE_SIZE;
+        const to = from + PAGE_SIZE - 1;
+        // From id to this id
+        query = query.range(from, to);
     }
 
-    return posts;
+    const { data: userPosts, error, count } = await query;
+    console.log(userPosts);
+
+    if (error) {
+        toast.error(error.message);
+        throw new Error(error);
+    }
+
+    return { userPosts, count };
 }

@@ -10,6 +10,7 @@ export default function Pagination({ count }) {
     const currentPage = !searchParams.get('page')
         ? 1
         : Number(searchParams.get('page'));
+    console.log('currentPage: ', currentPage);
 
     const pageCount = Math.ceil(count / PAGE_SIZE);
 
