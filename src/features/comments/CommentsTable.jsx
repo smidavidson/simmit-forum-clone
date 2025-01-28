@@ -1,7 +1,6 @@
 import CommentItem from './CommentItem';
-import { useLoadComments } from './useLoadComments';
 
-export default function CommentsTable({ commentsForPost, userId }) {
+export default function CommentsTable({ commentsForPost, userId, isPreview = false }) {
     return (
         <div className='mx-auto max-w-4xl space-y-2'>
             {commentsForPost.map((comment) => {
@@ -10,6 +9,7 @@ export default function CommentsTable({ commentsForPost, userId }) {
                         comment={comment}
                         key={comment.id}
                         isDeletable={userId === comment.created_by}
+                        isPreview = {isPreview}
                     ></CommentItem>
                 );
             })}

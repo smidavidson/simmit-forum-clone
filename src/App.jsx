@@ -49,7 +49,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: '/user/:username',
+                path: '/user/:username/:tab',
                 element: <Profile></Profile>,
             },
         ],

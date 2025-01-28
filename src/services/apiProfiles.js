@@ -24,7 +24,7 @@ export async function getPostsWithUsername({
     sortBy = { field: 'created_at', direction: 'desc' },
     page,
 }) {
-    console.log('getPosts: ', username);
+    // console.log('getPosts: ', username);
 
     let query = supabase
         .from('posts')
@@ -52,4 +52,40 @@ export async function getPostsWithUsername({
     }
 
     return { userPosts, count };
+}
+
+// Retrieve comments given a username
+export async function getCommentsWithUsername({
+    username,
+    sortBy = { field: 'created_at', direction: 'desc' },
+    page,
+}) {
+    // console.log('getComments: ', username);
+
+    let query = supabase
+        .from('comments')
+        .select(`*, profiles!inner(username)`, {
+            count: 'exact',
+        })
+        .eq('profiles.username', username)
+        .order(sortBy.field, {
+            ascending: sortBy.direction === 'asc',
+        });
+
+    if (page) {
+        const from = (page - 1) * PAGE_SIZE;
+        const to = from + PAGE_SIZE - 1;
+        // From id to this id
+        query = query.range(from, to);
+    }
+
+    const { data: userComments, error, count } = await query;
+    console.log(userComments);
+
+    if (error) {
+        toast.error(error.message);
+        throw new Error(error);
+    }
+
+    return { userComments, count };
 }
