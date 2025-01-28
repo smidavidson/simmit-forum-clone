@@ -10,9 +10,14 @@ export default function Pagination({ count }) {
     const currentPage = !searchParams.get('page')
         ? 1
         : Number(searchParams.get('page'));
-    console.log('currentPage: ', currentPage);
-
     const pageCount = Math.ceil(count / PAGE_SIZE);
+
+    console.log({
+        count,
+        currentPage,
+        pageCount,
+        PAGE_SIZE,
+    });
 
     function nextPage() {
         // If we're on the last page, then don't set page query in URL to next page
@@ -35,7 +40,7 @@ export default function Pagination({ count }) {
         <div className='mx-auto max-w-4xl px-4 py-3'>
             <div className='flex items-center justify-between'>
                 <Button
-                    variant='inline'
+                    variant='nextprev'
                     className='px-2 py-1 text-sm'
                     onClick={() => {
                         prevPage();
@@ -46,7 +51,7 @@ export default function Pagination({ count }) {
                     <span>Previous</span>
                 </Button>
                 <Button
-                    variant='inline'
+                    variant='nextprev'
                     className='px-2 py-1 text-sm'
                     onClick={() => {
                         nextPage();

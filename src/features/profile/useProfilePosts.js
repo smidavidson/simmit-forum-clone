@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getPostsWithUsername as getPostsWithUsernameApi } from '../../services/apiProfiles';
 import { useSearchParams } from 'react-router-dom';
 
-export function useProfilePosts({ username }) {
+export function useProfilePosts({ username, enabled = true }) {
     const [searchParams] = useSearchParams();
     // If page parameter does not exist, assume page is 1
     const page = !searchParams.get('page')
@@ -20,6 +20,7 @@ export function useProfilePosts({ username }) {
         queryFn: () => {
             return getPostsWithUsernameApi({ username, sortBy, page });
         },
+        enabled: enabled,
     });
     if (error) {
         console.log('Error fetching user posts in useProfile.js: ', error);

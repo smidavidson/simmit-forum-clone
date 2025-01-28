@@ -43,7 +43,7 @@ export default function Header() {
                             <>
                                 <Link
                                     className='flex flex-wrap items-center gap-1'
-                                    to={`/user/${profile?.username}`}
+                                    to={`/user/${profile?.username}/posts`}
                                 >
                                     <BiUserCircle></BiUserCircle>
                                     <span className='ip-se2:inline hidden'>

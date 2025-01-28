@@ -32,6 +32,7 @@ export async function getPostsWithUsername({
             count: 'exact',
         })
         .eq('profiles.username', username)
+        .eq('is_deleted', false)
         .order(sortBy.field, {
             ascending: sortBy.direction === 'asc',
         });
@@ -68,6 +69,7 @@ export async function getCommentsWithUsername({
             count: 'exact',
         })
         .eq('profiles.username', username)
+        .eq('is_deleted', false)
         .order(sortBy.field, {
             ascending: sortBy.direction === 'asc',
         });
@@ -75,15 +77,21 @@ export async function getCommentsWithUsername({
     if (page) {
         const from = (page - 1) * PAGE_SIZE;
         const to = from + PAGE_SIZE - 1;
+
         // From id to this id
         query = query.range(from, to);
     }
 
     const { data: userComments, error, count } = await query;
-    console.log(userComments);
+
+    console.log('Query results:', {
+        commentCount: userComments?.length,
+        totalCount: count,
+        hasError: !!error,
+    });
 
     if (error) {
-        toast.error(error.message);
+        console.error('Full error:', error); 
         throw new Error(error);
     }
 

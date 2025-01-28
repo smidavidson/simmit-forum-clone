@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getCommentsWithUsername as getCommentsWithUsernameApi } from '../../services/apiProfiles';
 import { useSearchParams } from 'react-router-dom';
 
-export function useProfileComments({ username }) {
+export function useProfileComments({ username, enabled = true }) {
     const [searchParams] = useSearchParams();
     // If page parameter does not exist, assume page is 1
     const page = !searchParams.get('page')
@@ -20,6 +20,7 @@ export function useProfileComments({ username }) {
         queryFn: () => {
             return getCommentsWithUsernameApi({ username, sortBy, page });
         },
+        enabled: enabled,
     });
     if (error) {
         console.log('Error fetching user comments in useProfile.js: ', error);
