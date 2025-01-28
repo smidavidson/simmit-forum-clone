@@ -17,18 +17,23 @@ export async function getProfile(userId) {
 }
 
 // Retrieve posts given an username
-export async function getPosts(username) {
-    console.log("getPosts: ", username);
+export async function getPostsWithUsername({username, sortBy = { field: 'created_at', direction: 'desc' }}) {
+    console.log('getPosts: ', username);
 
     const { data: posts, error } = await supabase
         .from('posts')
         .select(
             `
         *,
-        profiles!inner(username)
+        profiles!inner(username),
+        flairs(name, color)
     `,
         )
         .eq('profiles.username', username)
+        .order(sortBy.field, {
+            ascending: sortBy.direction === 'asc',
+        });
+
 
     if (error) {
         console.log(

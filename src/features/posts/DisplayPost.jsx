@@ -29,7 +29,7 @@ export default function DisplayPost() {
         if (user.id === post.created_by) isDeletable = true;
     }
 
-    console.log(post);
+    // console.log(post);
 
     return (
         <div className='mx-auto max-w-4xl p-4'>

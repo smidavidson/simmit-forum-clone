@@ -6,6 +6,7 @@ import supabase from './supabase';
 // Get all Posts from Posts table
 export async function getPosts(
     sortBy = { field: 'created_at', direction: 'desc' },
+    
 ) {
     let query = supabase
         .from('posts')
@@ -111,6 +112,7 @@ export async function submitPost(newPost) {
                 link_url: newPost.link_url || null,
                 created_by: userData.user.id,
                 image_url: imageUrl,
+                flair: newPost.flair,
             },
         ])
         .select();

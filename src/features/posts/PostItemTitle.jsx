@@ -7,8 +7,8 @@ export default function PostItemTitle({ post }) {
 
     return (
         <h2 className='text-md mb-1 flex flex-wrap items-center font-medium'>
-            <Flair variant='inline' className={`mr-2`} color={post.flairs.color}>
-                {post.flairs.name}
+            <Flair variant='inline' className={`mr-2`} color={post.flairs?.color}>
+                {post.flairs?.name}
             </Flair>
             {hasLinkUrl ? (
                 <LinkPostTitle

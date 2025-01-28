@@ -3,7 +3,7 @@ import supabase from "./supabase";
 
 // Get a specific single Post record given a Post ID
 export async function getFlairs() {
-    const { data: post, error } = await supabase
+    const { data: flairs, error } = await supabase
         .from('flairs')
         .select(`*`)
 
@@ -12,5 +12,5 @@ export async function getFlairs() {
         throw new Error(error);
     }
 
-    return post;
+    return flairs;
 }

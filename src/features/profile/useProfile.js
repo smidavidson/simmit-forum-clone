@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { getPosts as getPostsApi } from '../../services/apiProfiles';
+import { getPostsWithUsername as getPostsWithUsernameApi } from '../../services/apiProfiles';
 
-export function useProfile(username) {
+export function useProfile({username}) {
     const {
         data: userPosts,
         error,
@@ -9,7 +9,7 @@ export function useProfile(username) {
     } = useQuery({
         queryKey: ['userPosts', username],
         queryFn: () => {
-            return getPostsApi(username);
+            return getPostsWithUsernameApi({username});
         },
     });
     if (error) {
