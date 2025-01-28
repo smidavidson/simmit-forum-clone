@@ -13,7 +13,11 @@ export default function DisplayPostTitle({ post }) {
                 )}
             </div>
             <div>
-                <Flair color={post.flairs.color} className='mr-2'>{post.flairs.name}</Flair>
+                {!post.is_deleted && (
+                    <Flair color={post.flairs.color} className='mr-2'>
+                        {post.flairs.name}
+                    </Flair>
+                )}
             </div>
             <div>
                 <LinkImageUrlSubtitle post={post}></LinkImageUrlSubtitle>
