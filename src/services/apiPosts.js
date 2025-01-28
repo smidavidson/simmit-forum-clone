@@ -2,28 +2,39 @@
 
 import toast from 'react-hot-toast';
 import supabase from './supabase';
+import { PAGE_SIZE } from '../utils/constants';
 
 // Get all Posts from Posts table
-export async function getPosts(
+export async function getPosts({
     sortBy = { field: 'created_at', direction: 'desc' },
-    
-) {
+    page,
+}) {
     let query = supabase
         .from('posts')
-        .select(`*, profiles(username), flairs(name, color)`)
+        .select(`*, profiles(username), flairs(name, color)`, {
+            count: 'exact',
+        })
         .eq('is_deleted', false)
         .order(sortBy.field, {
             ascending: sortBy.direction === 'asc',
         });
 
-    const { data: posts, error } = await query;
+    if (page) {
+        const from = (page - 1) * PAGE_SIZE;
+        const to = from + PAGE_SIZE - 1;
+        // From id to this id
+        query = query.range(from, to);
+    }
+
+    const { data: posts, error, count } = await query;
 
     if (error) {
-        console.log('Error fetching posts in apiPosts: ', error);
+        toast.error(error.message);
+        throw new Error(error);
     }
 
     // FYI, React query will rename this as data anyways, so renaming it here makes no difference
-    return posts;
+    return { posts, count };
 }
 
 // Get a specific single Post record given a Post ID
