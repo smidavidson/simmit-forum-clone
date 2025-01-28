@@ -12,7 +12,9 @@ export default function CommentItem({ comment, isDeletable }) {
                 {comment?.is_deleted ? (
                     <span>{'[deleted]'}</span>
                 ) : (
-                    <span>{comment?.content}</span>
+                    <span className='whitespace-pre-wrap break-words'>
+                        {comment?.content}
+                    </span>
                 )}
             </div>
             <div className='flex flex-wrap pt-2'>

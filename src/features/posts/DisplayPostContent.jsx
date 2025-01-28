@@ -4,7 +4,9 @@ export default function DisplayPostContent({ post }) {
             {post?.is_deleted ? (
                 <span>{'[deleted]'}</span>
             ) : (
-                <span>{post.content}</span>
+                <span className='whitespace-pre-wrap break-words'>
+                    {post.content}
+                </span>
             )}
         </div>
     );
