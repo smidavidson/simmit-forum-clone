@@ -1,3 +1,5 @@
+import Flair from '../../ui/Flair';
+
 export default function DisplayPostTitle({ post }) {
     const hasLinkUrl = post?.link_url;
 
@@ -10,7 +12,12 @@ export default function DisplayPostTitle({ post }) {
                     <TextPostTitle post={post}></TextPostTitle>
                 )}
             </div>
-            <LinkImageUrlSubtitle post={post}></LinkImageUrlSubtitle>
+            <div>
+                <Flair color={post.flairs.color} className='mr-2'>{post.flairs.name}</Flair>
+            </div>
+            <div>
+                <LinkImageUrlSubtitle post={post}></LinkImageUrlSubtitle>
+            </div>
         </div>
     );
 }

@@ -13,7 +13,6 @@ import DisplayPostContent from './DisplayPostContent';
 export default function DisplayPost() {
     // Get postId from URL
     const { postId } = useParams();
-    const navigate = useNavigate();
 
     const { post, isLoadingPost } = usePost();
     const { user, isUserLoading } = useUser();

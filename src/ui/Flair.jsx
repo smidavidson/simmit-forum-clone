@@ -1,5 +1,5 @@
 const variants = {
-    inline: `flex items-center text-xs text-gray-50 rounded-md border px-1 py-0.5`,
+    inline: `flex items-center text-xs bg-slate-900 text-gray-50 rounded-md border px-1 py-0.5`,
 };
 
 export default function Flair({
