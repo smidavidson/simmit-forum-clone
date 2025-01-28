@@ -9,7 +9,7 @@ export async function getPosts(
 ) {
     let query = supabase
         .from('posts')
-        .select(`*, profiles(username)`)
+        .select(`*, profiles(username), flairs(name, color)`)
         .eq('is_deleted', false)
         .order(sortBy.field, {
             ascending: sortBy.direction === 'asc',
@@ -29,7 +29,7 @@ export async function getPosts(
 export async function getPost(id) {
     const { data: post, error } = await supabase
         .from('posts')
-        .select(`*, profiles(username)`)
+        .select(`*, profiles(username), flairs(name, color)`)
         .eq('id', id)
         .single();
 
