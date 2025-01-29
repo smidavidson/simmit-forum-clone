@@ -21,8 +21,8 @@ export async function getCommentsFromPostId(
         throw new Error(error.message);
     }
 
-    console.log('postId:', postId);
-    console.log('query result:', comments);
+    // console.log('postId:', postId);
+    // console.log('query result:', comments);
 
     // FYI, React query will rename this as data anyways, so renaming it here makes no difference
     return comments;
@@ -37,15 +37,15 @@ export async function getCommentsFromUsername({ username }) {
     const { data: comments, error } = await query;
 
     if (error) {
+        // console.log(
+        //     `Error fetching comments for user: ${username} in apiComments: `,
+        //     error,
+        // );
         toast.error(error.message);
-        console.log(
-            `Error fetching comments for user: ${username} in apiComments: `,
-            error,
-        );
         throw new Error(error.message);
     }
 
-    console.log('query result:', comments);
+    // console.log('query result:', comments);
     return comments;
 }
 
@@ -71,7 +71,7 @@ export async function updateComment(commentId) {
 
 // Submit a Comment to a post
 export async function submitComment({ commentContent, postId }) {
-    console.log(`retrieved comment content: `, commentContent);
+    // console.log(`retrieved comment content: `, commentContent);
 
     // Get user saved in local storage
     const { data: userData } = await supabase.auth.getUser();
@@ -89,7 +89,8 @@ export async function submitComment({ commentContent, postId }) {
         .select();
 
     if (error) {
-        console.log('Comment could not be submitted: ', error);
+        toast.error(error.message);
+        throw new Error(error.message);
     }
 
     return data;

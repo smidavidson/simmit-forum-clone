@@ -54,7 +54,7 @@ function LinkPostTitle({ url, title }) {
 
 // Title used when no link_url exists
 function TextPostTitle({ id, title, flair }) {
-    console.log(flair);
+    // console.log(flair);
 
     return (
         <div className='flex flex-wrap items-center'>

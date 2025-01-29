@@ -6,7 +6,7 @@ import { useSubmitComment } from './useSubmitComment';
 import { Link } from 'react-router-dom';
 
 export default function CommentSubmissionForm({ postId, userId }) {
-    console.log(userId);
+    // console.log(userId);
 
     // Implement later (leave as is, for now)
     const [content, setContent] = useState('');

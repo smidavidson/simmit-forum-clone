@@ -9,7 +9,7 @@ export function useLoadComments(postId) {
     } = useQuery({
         queryKey: ['comments', postId],
         queryFn: () => {
-            console.log('Fetching comments for postId:', postId); // Add this
+            // console.log('Fetching comments for postId:', postId); // Add this
 
             return getCommentsFromPostId(postId);
         },

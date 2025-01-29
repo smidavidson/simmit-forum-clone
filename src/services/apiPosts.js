@@ -53,7 +53,9 @@ export async function getPost(id) {
         .single();
 
     if (error) {
-        console.log('Error fetching a post in apiPosts: ', error);
+        // console.log('Error fetching a post in apiPosts: ', error);
+        toast.error(error.message);
+        throw new Error(error);
     }
 
     return post;
@@ -81,7 +83,7 @@ export async function updatePost(postId) {
 
 // Submit a post
 export async function submitPost(newPost) {
-    console.log('newPost: ', newPost);
+    // console.log('newPost: ', newPost);
 
     // Get user saved in local storage
     const { data: userData } = await supabase.auth.getUser();
@@ -91,7 +93,7 @@ export async function submitPost(newPost) {
         const file = newPost.image;
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
-        console.log(fileName);
+        // console.log(fileName);
 
         // Upload image
         const { error: storageError } = await supabase.storage
@@ -118,7 +120,7 @@ export async function submitPost(newPost) {
         imageUrl = publicUrl;
     }
 
-    console.log(`imageUrl: `, imageUrl);
+    // console.log(`imageUrl: `, imageUrl);
 
     // Post table schema: id, created_at (both are autofilled), title, content, image_url (this can be null for now)
     const { data, error } = await supabase
