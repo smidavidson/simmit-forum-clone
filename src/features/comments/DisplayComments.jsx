@@ -17,8 +17,15 @@ export default function DisplayComments({ postId, userId = null }) {
                 {commentsForPost.length} comments:{' '}
             </div>
             <hr className='mb-4 border-t-2 border-dotted'></hr>
-            <CommentSubmissionForm postId={postId}></CommentSubmissionForm>
-            <CommentsTable commentsForPost={commentsForPost} userId={userId}></CommentsTable>
+            <div>
+                <CommentSubmissionForm postId={postId} userId={userId}></CommentSubmissionForm>
+            </div>
+            <div>
+                <CommentsTable
+                    commentsForPost={commentsForPost}
+                    userId={userId}
+                ></CommentsTable>
+            </div>
         </div>
     );
 }
