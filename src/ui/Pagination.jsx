@@ -38,7 +38,7 @@ export default function Pagination({ count }) {
 
     return (
         <div>
-            <div className='flex items-center justify-between pb-2'>
+            <div className='flex items-center justify-between pb-3'>
                 <Button
                     variant='nextprev'
                     className='flex justify-center px-2 py-1 text-sm w-24'
