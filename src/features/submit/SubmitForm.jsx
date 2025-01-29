@@ -44,7 +44,7 @@ export default function SubmitForm() {
             {
                 title,
                 content,
-                link_url: formatUrl(link_url?.toLowerCase()),
+                link_url: formatUrl(link_url),
                 image: image?.[0],
                 flair,
             },
