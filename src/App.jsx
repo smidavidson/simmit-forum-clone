@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import AppLayout from './ui/AppLayout';
 import FrontPage from './pages/FrontPage';
 import Login from './pages/Login';
@@ -47,6 +47,10 @@ const router = createBrowserRouter([
                         <SubmitPost></SubmitPost>
                     </ProtectedRoute>
                 ),
+            },
+            {
+                path: '/user/:username',
+                element: <Navigate to='posts' replace />,
             },
             {
                 path: '/user/:username/:tab',

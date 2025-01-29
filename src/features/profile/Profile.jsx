@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useProfilePosts } from './useProfilePosts';
 import { useProfileComments } from './useProfileComments';
 import ProfileHistory from './ProfileHistory';

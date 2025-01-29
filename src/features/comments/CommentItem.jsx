@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function CommentItem({ comment, isDeletable, isPreview }) {
     const { updateComment, isUpdatingComment } = useUpdateComment();
+    console.log(comment);
 
     return (
         <div className='rounded-md border border-gray-200 bg-white p-2 shadow-sm'>
@@ -23,7 +24,9 @@ export default function CommentItem({ comment, isDeletable, isPreview }) {
                         {comment?.is_deleted ? (
                             <span>{'[deleted]'}</span>
                         ) : (
-                            <span>{comment?.profiles?.username}</span>
+                            <Link to={`/user/${comment.profiles.username}`}>
+                                {comment?.profiles?.username}
+                            </Link>
                         )}
                     </div>
                     <div>&nbsp;•&nbsp;</div>

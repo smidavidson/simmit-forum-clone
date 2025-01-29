@@ -13,8 +13,8 @@ export async function login({ email, password }) {
 
     if (error) {
         toast.error(error.message);
+        throw new Error(error);
     }
-
 
     return sessionData;
 }
@@ -23,7 +23,9 @@ export async function login({ email, password }) {
 export async function logout() {
     const { error } = await supabase.auth.signOut();
     if (error) {
-        console.log('Error logging out in apiAuth: ', error);
+        // console.log(error);
+        toast.error(error.message);
+        throw new Error(error);
     }
 }
 
@@ -70,8 +72,8 @@ export async function signup({ username, email, password }) {
         },
     });
 
-    console.log('apiAuth: ', data);
-    console.log(error);
+    // console.log('apiAuth: ', data);
+    // console.log(error);
 
     // (If confirm email is disabled) AuthApiError returned with message: "User already registered"
     const userAlreadyExistsConfirmEmail =

@@ -15,7 +15,7 @@ export default function SignupForm() {
     const [apiUsernameError, setApiUsernameError] = useState('');
     const [apiEmailError, setApiEmailError] = useState('');
 
-    console.log(errors);
+    // console.log(errors);
 
     function onSubmit({ username, email, password }) {
         if (!username || !email || !password) {
