@@ -1,2 +1,2 @@
 // Number of posts loaded per page
-export const PAGE_SIZE = 10;
+export const PAGE_SIZE = 9;

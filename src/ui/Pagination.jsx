@@ -38,10 +38,10 @@ export default function Pagination({ count }) {
 
     return (
         <div>
-            <div className='flex items-center justify-between pb-3'>
+            <div className='flex items-center justify-between pb-4'>
                 <Button
                     variant='nextprev'
-                    className='flex justify-center px-2 py-1 text-sm w-24'
+                    className='flex w-24 justify-center px-2 py-1 text-sm'
                     onClick={() => {
                         prevPage();
                     }}
@@ -52,7 +52,7 @@ export default function Pagination({ count }) {
                 </Button>
                 <Button
                     variant='nextprev'
-                    className='flex justify-center px-2 py-1 text-sm w-24'
+                    className='flex w-24 justify-center px-2 py-1 text-sm'
                     onClick={() => {
                         nextPage();
                     }}
