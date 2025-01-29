@@ -15,16 +15,20 @@ export default function PostItemTitle({ post }) {
                 {post.flairs?.name}
             </Flair>
             {hasLinkUrl ? (
-                <LinkPostTitle
-                    url={post.link_url}
-                    title={post.title}
-                ></LinkPostTitle>
+                <>
+                    <LinkPostTitle
+                        url={post.link_url}
+                        title={post.title}
+                    ></LinkPostTitle>
+                </>
             ) : (
-                <TextPostTitle
-                    id={post.id}
-                    title={post.title}
-                    flair={post.flairs.name}
-                ></TextPostTitle>
+                <>
+                    <TextPostTitle
+                        id={post.id}
+                        title={post.title}
+                        flair={post.flairs.name}
+                    ></TextPostTitle>
+                </>
             )}
         </h2>
     );
