@@ -2,7 +2,7 @@ import CommentItem from './CommentItem';
 
 export default function CommentsTable({
     commentsForPost,
-    userId,
+    user,
     isPreview = false,
     className = '',
 }) {
@@ -13,7 +13,7 @@ export default function CommentsTable({
                     <CommentItem
                         comment={comment}
                         key={comment.id}
-                        isDeletable={userId === comment.created_by}
+                        isDeletable={user?.id === comment.created_by}
                         isPreview={isPreview}
                     ></CommentItem>
                 );

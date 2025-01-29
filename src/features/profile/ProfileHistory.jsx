@@ -9,7 +9,7 @@ export default function ProfileHistory({
     postsCount,
     commentsCount,
 }) {
-    console.log('userPosts: ', userPosts);
+    // console.log('userPosts: ', userPosts);
 
     return (
         <div>

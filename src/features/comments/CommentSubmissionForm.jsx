@@ -5,7 +5,7 @@ import Button from '../../ui/Button';
 import { useSubmitComment } from './useSubmitComment';
 import { Link } from 'react-router-dom';
 
-export default function CommentSubmissionForm({ postId, userId }) {
+export default function CommentSubmissionForm({ postId, user }) {
     // console.log(userId);
 
     // Implement later (leave as is, for now)
@@ -44,13 +44,13 @@ export default function CommentSubmissionForm({ postId, userId }) {
                 <div>
                     <SubmissionContentBox
                         placeholder={
-                            userId
+                            user?.id
                                 ? 'Add a comment'
                                 : 'Login to leave a comment'
                         }
                         className='rounded-lg'
                         value={content}
-                        disabled={isSubmittingComment || !userId}
+                        disabled={isSubmittingComment || !user?.id}
                         onChange={(e) => {
                             setContent((cc) => {
                                 return e.target.value;
@@ -60,7 +60,7 @@ export default function CommentSubmissionForm({ postId, userId }) {
                 </div>
                 <div>
                     <Button
-                        disabled={isSubmittingComment || !userId}
+                        disabled={isSubmittingComment || !user?.id}
                         variant='small'
                     >
                         Comment<BiSend></BiSend>

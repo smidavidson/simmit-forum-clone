@@ -45,7 +45,7 @@ export async function getPostsWithUsername({
     }
 
     const { data: userPosts, error, count } = await query;
-    console.log(userPosts);
+    // console.log(userPosts);
 
     if (error) {
         toast.error(error.message);
@@ -84,11 +84,11 @@ export async function getCommentsWithUsername({
 
     const { data: userComments, error, count } = await query;
 
-    console.log('Query results:', {
-        commentCount: userComments?.length,
-        totalCount: count,
-        hasError: !!error,
-    });
+    // console.log('Query results:', {
+    //     commentCount: userComments?.length,
+    //     totalCount: count,
+    //     hasError: !!error,
+    // });
 
     if (error) {
         console.error('Full error:', error); 
