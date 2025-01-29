@@ -3,6 +3,7 @@
 Simple Reddit-like forum built with **React.JS, Vite, Tailwind and Supabase**\
 **Live Demo:** https://reddit-forum-clone-eight.vercel.app
 
+Currently the site is filled with example posts I copied from Reddit, but feel free to post anything you want to test out the site.\
 **Note:** Email confirmation is currently disabled, so you can sign up freely to test.
 
 ## Features
