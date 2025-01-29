@@ -8,16 +8,23 @@ import { PAGE_SIZE } from '../utils/constants';
 export async function getPosts({
     sortBy = { field: 'created_at', direction: 'desc' },
     page,
+    filter, // Only filter when not set to none
 }) {
     let query = supabase
         .from('posts')
-        .select(`*, profiles(username), flairs(name, color)`, {
+        .select(`*, profiles(username), flairs!inner(name, color)`, {
             count: 'exact',
         })
-        .eq('is_deleted', false)
-        .order(sortBy.field, {
-            ascending: sortBy.direction === 'asc',
-        });
+        .eq('is_deleted', false);
+
+    console.log('filter:', filter);
+    if (filter && filter !== 'none') {
+        query = query.eq('flairs.name', filter);
+    }
+
+    query = query.order(sortBy.field, {
+        ascending: sortBy.direction === 'asc',
+    });
 
     if (page) {
         const from = (page - 1) * PAGE_SIZE;

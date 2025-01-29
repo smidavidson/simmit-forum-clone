@@ -1,11 +1,33 @@
+import { createContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-export default function TableOperations({ filterField, options }) {
+export default function TableOperations({ children, className }) {
+    return (
+        <div className={`flex gap-3 rounded-md border px-3 py-1 ${className}`}>
+            {children}
+        </div>
+    );
+}
+
+function OperationsItem({
+    filterField,
+    options,
+    className,
+    children,
+    defaultValue = null,
+}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentFilter = searchParams.get(filterField) || options.at(0).value;
 
     function handleClick(value) {
-        searchParams.set(filterField, value);
+        console.log('click: ', value);
+
+        // if (value === 'none') {
+            // searchParams.delete(filterField);
+        // } else {
+            searchParams.set(filterField, value);
+        // }
+
         if (searchParams.get('page')) {
             searchParams.set('page', 1);
         }
@@ -14,26 +36,32 @@ export default function TableOperations({ filterField, options }) {
     }
 
     return (
-        <div className='rounded-md border px-3 py-1'>
-            <label>Sort: </label>
+        <div className={` ${className}`}>
+            <label>{children}</label>
             <select
                 className='rounded-md border'
+                value={currentFilter}
                 onChange={(e) => {
                     handleClick(e.target.value);
                 }}
             >
+                {defaultValue && (
+                    <option key='none' value='none'>
+                        {'none'}
+                    </option>
+                )}
                 {options.map((option) => {
                     return (
                         <option
-                            key={option.value}
-                            value={option.value}
+                            key={option.id}
+                            value={option.name}
                             className={
                                 currentFilter === option.value
                                     ? 'border bg-blue-500 font-medium'
                                     : ''
                             }
                         >
-                            {option.label}
+                            {option.name}
                         </option>
                     );
                 })}
@@ -41,3 +69,5 @@ export default function TableOperations({ filterField, options }) {
         </div>
     );
 }
+
+TableOperations.Item = OperationsItem;

@@ -13,6 +13,9 @@ export function usePosts() {
         : Number(searchParams.get('page'));
 
     const sort = !searchParams.get('sort') ? 'new' : searchParams.get('sort');
+    const filter = !searchParams.get('filter')
+        ? 'none'
+        : searchParams.get('filter');
 
     const sortBy = {
         field: 'created_at',
@@ -25,9 +28,9 @@ export function usePosts() {
         isLoading: isLoadingPosts,
         error,
     } = useQuery({
-        queryKey: ['posts', page, sortBy],
+        queryKey: ['posts', page, sortBy, filter],
         queryFn: () => {
-            return getPosts({ sortBy, page });
+            return getPosts({ sortBy, page, filter });
         },
     });
     if (error) {
