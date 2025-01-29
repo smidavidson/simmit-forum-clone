@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useUserAndProfile } from '../features/authentication/useUserAndProfile';
 import {
     BiBell,
@@ -26,7 +26,10 @@ export default function Header() {
         <header className='border-b bg-white'>
             <div className='px-4 py-4'>
                 <div className='flex items-center justify-between'>
-                    <Link to={'/'} className='text-lg font-semibold'>
+                    <Link
+                        to={'/'}
+                        className='text-lg font-semibold'
+                    >
                         Simmit
                     </Link>
 
@@ -46,7 +49,7 @@ export default function Header() {
                                     to={`/user/${profile?.username}/posts`}
                                 >
                                     <BiUserCircle></BiUserCircle>
-                                    <span className='ip-se2:inline hidden'>
+                                    <span className='hidden ip-se2:inline'>
                                         {profile?.username}
                                     </span>
                                 </Link>
@@ -57,7 +60,7 @@ export default function Header() {
                                     }}
                                     disabled={isLoggingOut}
                                 >
-                                    <span className='ip-se2:inline hidden'>
+                                    <span className='hidden ip-se2:inline'>
                                         Logout
                                     </span>
                                     <BiLogOut></BiLogOut>

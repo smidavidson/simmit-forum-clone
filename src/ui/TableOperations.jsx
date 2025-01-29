@@ -19,7 +19,9 @@ function OperationsItem({
     defaultValue = null,
 }) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const currentFilter = searchParams.get(filterField) || options.at(0).value;
+    const currentFilter =
+        searchParams.get(filterField) ||
+        (defaultValue ? 'none' : options[0].name);
 
     function handleClick(value) {
         console.log('click: ', value);
