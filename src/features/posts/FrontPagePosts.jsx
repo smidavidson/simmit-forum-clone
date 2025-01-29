@@ -1,5 +1,5 @@
 import Pagination from '../../ui/Pagination';
-import TableOperations from '../../ui/TableOperationsSort';
+import TableOperations from '../../ui/TableOperations';
 import { useFlairs } from '../submit/useFlairs';
 import PostsTable from './PostsTable';
 import { usePosts } from './usePosts';

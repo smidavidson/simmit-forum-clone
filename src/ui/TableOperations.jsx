@@ -3,7 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 
 export default function TableOperations({ children, className }) {
     return (
-        <div className={`flex gap-3 rounded-md border px-3 py-1 ${className}`}>
+        <div
+            className={`flex gap-3 rounded-md border bg-white px-3 py-1 ${className}`}
+        >
             {children}
         </div>
     );
@@ -23,9 +25,9 @@ function OperationsItem({
         console.log('click: ', value);
 
         // if (value === 'none') {
-            // searchParams.delete(filterField);
+        // searchParams.delete(filterField);
         // } else {
-            searchParams.set(filterField, value);
+        searchParams.set(filterField, value);
         // }
 
         if (searchParams.get('page')) {
@@ -39,14 +41,18 @@ function OperationsItem({
         <div className={` ${className}`}>
             <label>{children}</label>
             <select
-                className='rounded-md border'
+                className={`rounded-md border`}
                 value={currentFilter}
                 onChange={(e) => {
                     handleClick(e.target.value);
                 }}
             >
                 {defaultValue && (
-                    <option key='none' value='none'>
+                    <option
+                        key='none'
+                        value='none'
+                        disabled={currentFilter === 'none'}
+                    >
                         {'none'}
                     </option>
                 )}
@@ -55,10 +61,9 @@ function OperationsItem({
                         <option
                             key={option.id}
                             value={option.name}
+                            disabled={currentFilter === option.name}
                             className={
-                                currentFilter === option.value
-                                    ? 'border bg-blue-500 font-medium'
-                                    : ''
+                                currentFilter === option.name ? 'font-bold' : ''
                             }
                         >
                             {option.name}
