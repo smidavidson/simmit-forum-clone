@@ -1,6 +1,6 @@
-# Reddit-like Forum Clone
+# Simmit: Simple Forum 
 
-Simple Reddit-like forum built with **React.JS, Vite, Tailwind and Supabase**\
+Simmit is a simple Reddit-like forum built with **React.JS, Vite, Tailwind and Supabase**\
 **Live Demo:** https://reddit-forum-clone-eight.vercel.app
 
 Currently the site is filled with example posts I copied from Reddit, but feel free to post anything you want to test out the site.\
