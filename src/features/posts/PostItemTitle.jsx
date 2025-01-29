@@ -34,7 +34,12 @@ export default function PostItemTitle({ post }) {
 function LinkPostTitle({ url, title }) {
     return (
         <div className='flex flex-wrap items-center'>
-            <a href={url} className='mr-2'>
+            <a
+                href={url}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='mr-2'
+            >
                 {title}
             </a>
             <div className='group flex items-center text-sm font-thin text-gray-500 hover:cursor-default'>
