@@ -7,7 +7,7 @@ export default function CommentsTable({
     className = '',
 }) {
     return (
-        <div className={`mx-auto max-w-4xl space-y-2 ${className}`}>
+        <div className={`space-y-2 ${className}`}>
             {commentsForPost.map((comment) => {
                 return (
                     <CommentItem

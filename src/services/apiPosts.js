@@ -17,7 +17,7 @@ export async function getPosts({
         })
         .eq('is_deleted', false);
 
-    console.log('filter:', filter);
+    // console.log('apiPosts.js filter:', filter);
     if (filter && filter !== 'none') {
         query = query.eq('flairs.name', filter);
     }

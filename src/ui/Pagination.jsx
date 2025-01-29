@@ -12,12 +12,12 @@ export default function Pagination({ count }) {
         : Number(searchParams.get('page'));
     const pageCount = Math.ceil(count / PAGE_SIZE);
 
-    console.log({
-        count,
-        currentPage,
-        pageCount,
-        PAGE_SIZE,
-    });
+    // console.log({
+    //     count,
+    //     currentPage,
+    //     pageCount,
+    //     PAGE_SIZE,
+    // });
 
     function nextPage() {
         // If we're on the last page, then don't set page query in URL to next page

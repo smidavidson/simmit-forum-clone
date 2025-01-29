@@ -6,13 +6,14 @@ import Pagination from '../../ui/Pagination';
 import { useState } from 'react';
 import Button from '../../ui/Button';
 import { useProfileComments } from './useProfileComments';
+import ProfileHistory from './ProfileHistory';
+import ProfileHistoryTab from './ProfileHistoryTab';
 
 export default function Profile() {
     // Get tab from username parameter
     const { username, tab = 'posts' } = useParams();
-    const navigate = useNavigate();
 
-    console.log('Username from params: ', username);
+    // console.log('Username from params: ', username);
     const {
         userPosts = [],
         isLoadingUserPosts,
@@ -45,14 +46,19 @@ export default function Profile() {
     ];
 
     return (
-        <div>
-            <div className='mx-auto max-w-4xl space-y-4 px-4'>
+        <div className='mx-auto max-w-4xl px-4'>
+            <div>
                 <div className='pb-5 pt-3 text-xl font-semibold'>
                     <span>User: </span>
                     <span>{username}</span>
                 </div>
                 <div className='flex items-center'>
-                    {historyTabs.map((currentTab) => {
+                    <ProfileHistoryTab
+                        historyTabs={historyTabs}
+                        tab={tab}
+                        username={username}
+                    ></ProfileHistoryTab>
+                    {/* {historyTabs.map((currentTab) => {
                         return (
                             <Button
                                 variant='tab'
@@ -67,27 +73,18 @@ export default function Profile() {
                                 <span>{currentTab.name}</span>
                             </Button>
                         );
-                    })}
+                    })} */}
                 </div>
             </div>
             <div>
-                {tab === 'posts' ? (
-                    <div>
-                        <PostsTable posts={userPosts}></PostsTable>
-                        <Pagination count={postsCount}></Pagination>
-                    </div>
-                ) : (
-                    <div>
-                        <CommentsTable
-                            className='mx-auto max-w-4xl px-4'
-                            commentsForPost={userComments}
-                            isPreview={true}
-                        ></CommentsTable>
-                        <Pagination count={commentsCount}></Pagination>
-                    </div>
-                )}
+                <ProfileHistory
+                    tab={tab}
+                    userPosts={userPosts}
+                    userComments={userComments}
+                    postsCount={postsCount}
+                    commentsCount={commentsCount}
+                ></ProfileHistory>
             </div>
-            <div></div>
         </div>
     );
 }

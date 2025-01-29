@@ -6,13 +6,13 @@ import { usePosts } from './usePosts';
 
 export default function FrontPagePosts() {
     const { posts, isLoadingPosts, count } = usePosts();
-    const {flairs, isLoadingFlairs} = useFlairs();
+    const { flairs, isLoadingFlairs } = useFlairs();
 
     if (isLoadingPosts || isLoadingFlairs) {
         return <div>Loading...</div>;
     }
 
-    console.log(posts);
+    // console.log("FrontPagePosts.jsx loaded posts: ", posts);
 
     return (
         <div className='mx-auto max-w-4xl space-y-2 px-4 py-2'>
@@ -30,7 +30,7 @@ export default function FrontPagePosts() {
                     <TableOperations.Item
                         filterField='filter'
                         options={flairs}
-                        defaultValue = "None"
+                        defaultValue='None'
                     >
                         {'Filter: '}
                     </TableOperations.Item>
