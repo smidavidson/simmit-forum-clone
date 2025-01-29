@@ -13,7 +13,7 @@ export default function PostItem({ post }) {
     // });
 
     return (
-        <div className='flex rounded-md border border-gray-200 bg-white p-2 shadow-sm'>
+        <div className='flex items-center rounded-md border border-gray-200 bg-white p-2 shadow-sm'>
             <PostItemIcon linkUrl={post?.link_url}></PostItemIcon>
             <div className='flex w-full flex-col justify-center px-3'>
                 <PostItemTitle post={post}></PostItemTitle>
