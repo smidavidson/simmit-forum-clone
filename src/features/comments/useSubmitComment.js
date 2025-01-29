@@ -12,6 +12,7 @@ export function useSubmitComment() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['comments', postId]);
+            queryClient.invalidateQueries(['posts']);
         },
         onError: (error) => {
             console.log('Comment failed to be submitted: ', error);
