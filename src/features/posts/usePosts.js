@@ -12,7 +12,12 @@ export function usePosts() {
         ? 1
         : Number(searchParams.get('page'));
 
-    const sortBy = { field: 'created_at', direction: 'desc' };
+    const sort = !searchParams.get('sort') ? 'new' : searchParams.get('sort');
+
+    const sortBy = {
+        field: 'created_at',
+        direction: sort === 'new' ? 'desc' : 'asc',
+    };
 
     // Data returned from queryFn is always returned as 'data' regardless of renaming FYI
     const {
@@ -20,7 +25,7 @@ export function usePosts() {
         isLoading: isLoadingPosts,
         error,
     } = useQuery({
-        queryKey: ['posts', page],
+        queryKey: ['posts', page, sortBy],
         queryFn: () => {
             return getPosts({ sortBy, page });
         },
