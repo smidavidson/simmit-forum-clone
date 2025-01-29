@@ -7,7 +7,11 @@ export default function PostItemTitle({ post }) {
 
     return (
         <h2 className='text-md mb-1 flex flex-wrap items-center font-medium'>
-            <Flair variant='inline' className={`mr-2`} color={post.flairs?.color}>
+            <Flair
+                variant='inline'
+                className={`mr-2`}
+                color={post.flairs?.color}
+            >
                 {post.flairs?.name}
             </Flair>
             {hasLinkUrl ? (
@@ -16,7 +20,11 @@ export default function PostItemTitle({ post }) {
                     title={post.title}
                 ></LinkPostTitle>
             ) : (
-                <TextPostTitle id={post.id} title={post.title}></TextPostTitle>
+                <TextPostTitle
+                    id={post.id}
+                    title={post.title}
+                    flair={post.flairs.name}
+                ></TextPostTitle>
             )}
         </h2>
     );
@@ -29,7 +37,7 @@ function LinkPostTitle({ url, title }) {
             <a href={url} className='mr-2'>
                 {title}
             </a>
-            <div className='group flex items-center text-sm font-thin text-gray-500'>
+            <div className='group flex items-center text-sm font-thin text-gray-500 hover:cursor-default'>
                 <span>({displayUrl(url)})</span>
                 <span className='absolute left-0 z-10 hidden rounded bg-white p-1 shadow-lg group-hover:block'>
                     {url}
@@ -40,6 +48,17 @@ function LinkPostTitle({ url, title }) {
 }
 
 // Title used when no link_url exists
-function TextPostTitle({ id, title }) {
-    return <Link to={`/post/${id}`}>{title}</Link>;
+function TextPostTitle({ id, title, flair }) {
+    console.log(flair);
+
+    return (
+        <div className='flex flex-wrap items-center'>
+            <Link to={`/post/${id}`}>
+                <span className='mr-2'>{title}</span>
+            </Link>
+            <span className='group flex items-center text-sm font-thin text-gray-500 hover:cursor-default'>
+                (flair.{flair})
+            </span>
+        </div>
+    );
 }

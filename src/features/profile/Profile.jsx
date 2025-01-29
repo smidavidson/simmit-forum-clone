@@ -1,10 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useProfilePosts } from './useProfilePosts';
-import PostsTable from '../posts/PostsTable';
-import CommentsTable from '../comments/CommentsTable';
-import Pagination from '../../ui/Pagination';
-import { useState } from 'react';
-import Button from '../../ui/Button';
 import { useProfileComments } from './useProfileComments';
 import ProfileHistory from './ProfileHistory';
 import ProfileHistoryTab from './ProfileHistoryTab';
