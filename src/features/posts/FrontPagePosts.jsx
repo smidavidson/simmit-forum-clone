@@ -9,7 +9,13 @@ export default function FrontPagePosts() {
     const { flairs, isLoadingFlairs } = useFlairs();
 
     if (isLoadingPosts || isLoadingFlairs) {
-        return <div>Loading...</div>;
+        return (
+            <div className='flex items-center justify-center'>
+                <div className='mx-auto max-w-4xl space-y-2 px-4 py-2'>
+                    Loading Posts...
+                </div>
+            </div>
+        );
     }
 
     // console.log("FrontPagePosts.jsx loaded posts: ", posts);

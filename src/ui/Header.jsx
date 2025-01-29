@@ -19,17 +19,20 @@ export default function Header() {
     const { logout, isLoading: isLoggingOut } = useLogout();
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div className='flex items-center justify-center'>
+                <div className='mx-auto max-w-4xl space-y-2 px-4 py-2'>
+                    Loading User Information...
+                </div>
+            </div>
+        );
     }
 
     return (
         <header className='border-b bg-white'>
             <div className='px-4 py-4'>
                 <div className='flex items-center justify-between'>
-                    <Link
-                        to={'/'}
-                        className='text-lg font-semibold'
-                    >
+                    <Link to={'/'} className='text-lg font-semibold'>
                         Simmit
                     </Link>
 

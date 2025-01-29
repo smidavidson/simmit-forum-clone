@@ -21,7 +21,13 @@ export default function SubmitForm() {
     const { flairs = [], isLoadingFlairs } = useFlairs();
 
     if (isLoadingFlairs) {
-        return <div>Loading flairs...</div>;
+        return (
+            <div className='flex items-center justify-center'>
+                <div className='mx-auto max-w-4xl space-y-2 px-4 py-2'>
+                    Loading Submit Form...
+                </div>
+            </div>
+        );
     }
 
     // console.log(flairs);
@@ -40,7 +46,7 @@ export default function SubmitForm() {
                 content,
                 link_url: formatUrl(link_url?.toLowerCase()),
                 image: image?.[0],
-                flair
+                flair,
             },
             {
                 onSettled: () => {

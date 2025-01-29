@@ -34,7 +34,11 @@ export default function Profile() {
     }
 
     if (isLoadingPostsComments) {
-        return <div>Loading...</div>;
+        return (
+            <div className='flex items-center justify-center'>
+                <div>Loading...</div>
+            </div>
+        );
     }
 
     // console.log('userComments: ', userComments);
