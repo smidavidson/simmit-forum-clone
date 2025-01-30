@@ -1,4 +1,4 @@
-# Simmit: Simple Forum 
+# Simmit: The Simple Forum 
 
 Simmit is a simple Reddit-like forum built with **React.JS, Vite, Tailwind and Supabase**\
 **Live Demo:** https://reddit-forum-clone-eight.vercel.app
