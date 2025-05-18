@@ -6,10 +6,10 @@ export default function PostItemSubtitle({ post }) {
         <div className='flex flex-wrap text-sm text-gray-500'>
             <div>
                 <Link
-                    to={`/user/${post.profiles.username}/posts`}
+                    to={`/user/${post.username}/posts`}
                     className='text-gray-700'
                 >
-                    {post.profiles.username}
+                    {post.username}
                 </Link>
             </div>
             <div>&nbsp;•&nbsp;</div>

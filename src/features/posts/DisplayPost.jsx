@@ -25,7 +25,7 @@ export default function DisplayPost() {
     let isDeletable = false;
     // If user is logged show delete post option
     if (user) {
-        if (user.id === post.created_by) {
+        if (user.user_id === post.created_by) {
             isDeletable = true;
         }
     }

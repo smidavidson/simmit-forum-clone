@@ -10,10 +10,10 @@ export default function DisplayPostSubtitle({ post }) {
                     <span>{'[deleted]'}</span>
                 ) : (
                     <Link
-                        to={`/user/${post.profiles.username}`}
+                        to={`/user/${post.username}`}
                         className='text-gray-700'
                     >
-                        {post.profiles.username}
+                        {post.username}
                     </Link>
                 )}
             </div>
