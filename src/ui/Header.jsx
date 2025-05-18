@@ -1,5 +1,4 @@
 import { Link, useSearchParams } from 'react-router-dom';
-import { useUserAndProfile } from '../features/authentication/useUserAndProfile';
 import {
     BiBell,
     BiEdit,
@@ -13,9 +12,11 @@ import {
     BiUserCircle,
 } from 'react-icons/bi';
 import useLogout from '../features/authentication/useLogout';
+import { useUser } from '../features/authentication/useUser';
 
 export default function Header() {
-    const { user, profile, isLoading } = useUserAndProfile();
+    const { user, isLoading } = useUser();
+    console.log('user:', user);
     const { logout, isLoading: isLoggingOut } = useLogout();
 
     if (isLoading) {
@@ -45,15 +46,15 @@ export default function Header() {
                         </Link>
                         {isLoading ? (
                             <div>Loading...</div>
-                        ) : user ? (
+                        ) : user? (
                             <>
                                 <Link
                                     className='flex flex-wrap items-center gap-1'
-                                    to={`/user/${profile?.username}/posts`}
+                                    to={`/user/${user?.username}/posts`}
                                 >
                                     <BiUserCircle></BiUserCircle>
                                     <span className='hidden ip-se2:inline'>
-                                        {profile?.username}
+                                        {user?.username}
                                     </span>
                                 </Link>
                                 <button

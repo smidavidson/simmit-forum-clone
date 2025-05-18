@@ -5,16 +5,14 @@ import { login as loginApi } from '../../services/apiAuth';
 export function useLogin() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-    // const location = useLocation();
-    // const from = location.state?.from || '/';
 
     const { mutate: login, isLoading } = useMutation({
         mutationFn: ({ email, password }) => {
             return loginApi({ email, password });
         },
-        onSuccess: (sessionData) => {
+        onSuccess: ({ user }) => {
             // Cache session data of user with React Query
-            queryClient.setQueryData(['user'], sessionData.session.user);
+            queryClient.setQueryData(['user'], { user });
             navigate('/');
             // navigate(from);
         },

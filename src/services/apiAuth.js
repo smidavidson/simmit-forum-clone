@@ -5,25 +5,56 @@ import supabase from './supabase';
 
 // Used to login
 export async function login({ email, password }) {
-    // On success supabase saves session data to localStorage
-    let { data: sessionData, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-    });
+    try {
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            },
+        );
 
-    if (error) {
+        const resData = await res.json();
+
+        if (!res.ok) {
+            toast.error(resData.message);
+            throw new Error(resData.message);
+        }
+
+        // onSuccess receives this object
+        return { user: resData.user };
+    } catch (error) {
         toast.error(error.message);
-        throw new Error(error);
+        throw error;
     }
-
-    return sessionData;
 }
 
 // Use to logout
 export async function logout() {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-        // console.log(error);
+    try {
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/auth/logout`,
+            {
+                method: 'GET',
+                credentials: 'include',
+            },
+        );
+
+        const resData = await res.json();
+
+        if (!res.ok) {
+            throw new Error(resData.message || 'Logout failed');
+        }
+
+        return resData;
+    } catch (error) {
         toast.error(error.message);
         throw new Error(error);
     }
@@ -31,20 +62,21 @@ export async function logout() {
 
 // Used to get user data after refresh (because React Query loses session data on refresh)
 export async function getCurrentUser() {
-    const { data: session } = await supabase.auth.getSession();
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/me`, {
+        method: 'GET',
+        credentials: 'include',
+    });
 
-    if (!session.session) {
-        return null;
+    if (!res.ok) {
+        console.log(`User auth was invalid`);
+        return { success: false, user: null };
     }
 
-    const { data, error } = await supabase.auth.getUser();
-    // console.log(data);
+    const resData = await res.json();
 
-    if (error) {
-        throw new Error(error.message);
-    }
+    console.log(`User auth was valid`);
 
-    return data?.user;
+    return {user: resData.user};
 }
 
 export async function signup({ username, email, password }) {

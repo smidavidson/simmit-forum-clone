@@ -10,6 +10,16 @@ export async function getPosts({
     page,
     filter, // Only filter when not set to none
 }) {
+    try {
+        
+    } catch (error) {
+        toast.error(error.message);
+        throw new Error(error);
+    }
+
+
+
+
     let query = supabase
         .from('posts')
         .select(`*, profiles(username), flairs!inner(name, color)`, {

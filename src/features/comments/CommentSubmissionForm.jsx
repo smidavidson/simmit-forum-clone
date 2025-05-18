@@ -50,7 +50,7 @@ export default function CommentSubmissionForm({ postId, user }) {
                         }
                         className='rounded-lg'
                         value={content}
-                        disabled={isSubmittingComment || !user?.id}
+                        disabled={isSubmittingComment || !user?.username}
                         onChange={(e) => {
                             setContent((cc) => {
                                 return e.target.value;
@@ -60,7 +60,7 @@ export default function CommentSubmissionForm({ postId, user }) {
                 </div>
                 <div>
                     <Button
-                        disabled={isSubmittingComment || !user?.id}
+                        disabled={isSubmittingComment || !user?.username}
                         variant='small'
                     >
                         Comment<BiSend></BiSend>
