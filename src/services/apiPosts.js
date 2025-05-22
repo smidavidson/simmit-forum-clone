@@ -16,28 +16,30 @@ export async function getPosts({
         params.append('sort_direction', sortBy.direction);
 
         if (page) {
-            params.append("page", page);
+            params.append('page', page);
         }
 
         if (filter && filter !== 'none') {
             params.append('filter', filter);
         }
 
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/posts?${params.toString()}`, {
-            method: "GET",
-            credentials: "include",
-        });
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/posts?${params.toString()}`,
+            {
+                method: 'GET',
+                credentials: 'include',
+            },
+        );
 
         const resData = await res.json();
 
         if (!res.ok) {
-            throw new Error(resData.message || "Error fetching posts");
+            throw new Error(resData.message || 'Error fetching posts');
         }
 
-        return {posts: resData.posts, count: resData.count};
-
+        return { posts: resData.posts, count: resData.count };
     } catch (error) {
-        toast.error(error.message || "Error fetching posts");
+        toast.error(error.message || 'Error fetching posts');
         throw new Error(error);
     }
 }
@@ -45,15 +47,18 @@ export async function getPosts({
 // Get a specific single Post record given a Post ID
 export async function getPost(id) {
     try {
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/posts/${id}`, {
-            method: "GET",
-            credentials: "include",
-        });
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/posts/${id}`,
+            {
+                method: 'GET',
+                credentials: 'include',
+            },
+        );
 
         const resData = await res.json();
 
         if (!res.ok) {
-            throw new Error(resData.message || "Error fetching post");
+            throw new Error(resData.message || 'Error fetching post');
         }
 
         return resData;
@@ -65,22 +70,27 @@ export async function getPost(id) {
 
 // This actually deletes the post (but deletion does not actually delete the record, it only sets some columns to null)
 export async function updatePost(postId) {
-    // console.log('Attempting to update post:', postId);
+    try {
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`,
+            {
+                method: 'DELETE',
+                credentials: 'include',
+            },
+        );
 
-    // Don't need to pass anything
-    const { data: post, error } = await supabase
-        .from('posts')
-        .update({ is_deleted: true })
-        .eq('id', postId)
-        .select();
+        const resData = res.json();
 
-    if (error) {
+        if (!res.ok) {
+            toast.error(resData.message || 'Failed to delete post');
+            throw new Error(resData.message || 'Failed to delete post');
+        }
+
+        return resData.post_id;
+    } catch (error) {
         toast.error(error.message);
-        throw new Error(error.message);
+        throw error;
     }
-
-    // console.log('Post update result:', post);
-    return postId;
 }
 
 // Submit a post
@@ -91,35 +101,38 @@ export async function submitPost(newPost) {
         let imageUrl = null;
         let imageKey = null;
         if (newPost.image) {
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/s3/upload_url`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+            const res = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/s3/upload_url`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fileName: newPost.image.name,
+                        fileType: newPost.image.type,
+                    }),
+                    credentials: 'include',
                 },
-                body: JSON.stringify({
-                    fileName: newPost.image.name,
-                    fileType: newPost.image.type,
-                }),
-                credentials: "include",
-            })
+            );
 
             if (!res.ok) {
-                return { success: false, message: "Could not upload image" };
+                return { success: false, message: 'Could not upload image' };
             }
-            const {uploadUrl, key} = await res.json();
+            const { uploadUrl, key } = await res.json();
 
             // Post the image to the URL
             const s3Res = await fetch(uploadUrl, {
-                method: "PUT",
+                method: 'PUT',
                 headers: {
-                    "Content-Type": newPost.image.type,
+                    'Content-Type': newPost.image.type,
                 },
                 body: newPost.image,
             });
 
             if (!s3Res.ok) {
                 throw new Error(`Upload failed`);
-            } 
+            }
 
             imageKey = key;
             imageUrl = `${import.meta.env.VITE_BUCKET_URL}${imageKey}`;
@@ -127,7 +140,7 @@ export async function submitPost(newPost) {
 
         // Now post the new post to the backend
         const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/posts`, {
-            method: "POST",
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -138,17 +151,16 @@ export async function submitPost(newPost) {
                 link_url: newPost.link_url || null,
                 flair: newPost.flair,
                 image_url: imageUrl,
-                image_key: imageKey
-            })
+                image_key: imageKey,
+            }),
         });
 
         if (!res.ok) {
-            throw new Error(error.message || "Error creating post");
+            throw new Error(error.message || 'Error creating post');
         }
 
         const post = await res.json();
         return post;
-
     } catch (error) {
         toast.error(error.message);
         throw new Error(error.message);
