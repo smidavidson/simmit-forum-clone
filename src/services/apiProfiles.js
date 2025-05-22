@@ -24,35 +24,33 @@ export async function getPostsWithUsername({
     sortBy = { field: 'created_at', direction: 'desc' },
     page,
 }) {
-    // console.log('getPosts: ', username);
+    try {
+        const params = new URLSearchParams();
+        params.append('sortBy', JSON.stringify(sortBy));
+        if (page) {
+            params.append('page', page.toString());
+        }
+        params.append('pageSize', PAGE_SIZE.toString());
 
-    let query = supabase
-        .from('posts')
-        .select(`*, profiles!inner(username), flairs(name, color)`, {
-            count: 'exact',
-        })
-        .eq('profiles.username', username)
-        .eq('is_deleted', false)
-        .order(sortBy.field, {
-            ascending: sortBy.direction === 'asc',
-        });
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/posts/user/${username}?${params}`,
+            {
+                credentials: 'include',
+            },
+        );
 
-    if (page) {
-        const from = (page - 1) * PAGE_SIZE;
-        const to = from + PAGE_SIZE - 1;
-        // From id to this id
-        query = query.range(from, to);
-    }
+        const resData = await res.json();
 
-    const { data: userPosts, error, count } = await query;
-    // console.log(userPosts);
+        if (!res.ok) {
+            toast.error(resData.message || 'Failed to fetch user posts');
+            throw new Error(resData.message || 'Failed to fetch user posts');
+        }
 
-    if (error) {
+        return { userPosts: resData.userPosts, count: resData.count };
+    } catch (error) {
         toast.error(error.message);
-        throw new Error(error);
+        throw error;
     }
-
-    return { userPosts, count };
 }
 
 // Retrieve comments given a username
@@ -61,39 +59,31 @@ export async function getCommentsWithUsername({
     sortBy = { field: 'created_at', direction: 'desc' },
     page,
 }) {
-    // console.log('getComments: ', username);
+    try {
+        const params = new URLSearchParams();
+        params.append('sortBy', JSON.stringify(sortBy));
+        if (page) params.append('page', page.toString());
+        params.append('pageSize', PAGE_SIZE.toString());
 
-    let query = supabase
-        .from('comments')
-        .select(`*, profiles!inner(username)`, {
-            count: 'exact',
-        })
-        .eq('profiles.username', username)
-        .eq('is_deleted', false)
-        .order(sortBy.field, {
-            ascending: sortBy.direction === 'asc',
-        });
+        const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/comments/user/${username}?${params}`,
+            {
+                credentials: 'include',
+            },
+        );
 
-    if (page) {
-        const from = (page - 1) * PAGE_SIZE;
-        const to = from + PAGE_SIZE - 1;
+        if (!response.ok) {
+            const errorData = await response.json();
+            toast.error(errorData.message || 'Failed to fetch user comments');
+            throw new Error(
+                errorData.message || 'Failed to fetch user comments',
+            );
+        }
 
-        // From id to this id
-        query = query.range(from, to);
+        const data = await response.json();
+        return { userComments: data.userComments, count: data.count };
+    } catch (error) {
+        toast.error(error.message);
+        throw error;
     }
-
-    const { data: userComments, error, count } = await query;
-
-    // console.log('Query results:', {
-    //     commentCount: userComments?.length,
-    //     totalCount: count,
-    //     hasError: !!error,
-    // });
-
-    if (error) {
-        console.error('Full error:', error); 
-        throw new Error(error);
-    }
-
-    return { userComments, count };
 }
