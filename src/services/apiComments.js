@@ -5,27 +5,61 @@ export async function getCommentsFromPostId(
     postId,
     sortBy = { field: 'created_at', direction: 'desc' },
 ) {
-    let query = supabase
-        .from('comments')
-        .select(`*, profiles(username)`)
-        .eq('post_id', postId)
-        .order(sortBy.field, {
-            ascending: sortBy.direction === 'asc',
-        });
+    try {
+        const params = new URLSearchParams();
+        params.append('sort_field', sortBy.field);
+        params.append('sort_direction', sortBy.direction);
 
-    const { data: comments, error } = await query;
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/comments/post/${postId}?${params.toString()}`,
+            {
+                method: 'GET',
+                credentials: 'include',
+            },
+        );
 
-    if (error) {
+        const resData = res.json();
+
+        if (!res.ok) {
+            throw new Error(resData.message || 'Error fetching comments');
+        }
+
+        return resData;
+    } catch (error) {
         toast.error(error.message);
-        console.log('Error fetching comments in apiComments: ', error);
         throw new Error(error.message);
     }
+}
 
-    // console.log('postId:', postId);
-    // console.log('query result:', comments);
+// Submit a Comment to a post
+export async function submitComment({ commentContent, postId }) {
+    try {
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/comments`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    content: commentContent,
+                    postId: postId,
+                }),
+            },
+        );
 
-    // FYI, React query will rename this as data anyways, so renaming it here makes no difference
-    return comments;
+        const resData = await res.json();
+
+        if (!res.ok) {
+            throw new Error(resData.message || 'Error posting comment');
+        }
+
+        return resData;
+    } catch (error) {
+        toast.error(error.message);
+        throw new Error(error.message);
+    }
 }
 
 export async function getCommentsFromUsername({ username }) {
@@ -51,6 +85,24 @@ export async function getCommentsFromUsername({ username }) {
 
 // This actually deletes the post (but deletion does not actually delete the record, it only sets some columns to null)
 export async function updateComment(commentId) {
+    try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comments/${commentId}`, {
+            method: "DELETE",
+            credentials: 'include',
+        })
+        
+        const resData = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(error.message || "Error deleting comment");    
+        }   
+
+        return resData.commentId;
+    } catch (error) {
+        toast.error(error.message);
+        throw new Error(error.message);
+    }
+
     // console.log('Attempting to update comment:', commentId);
 
     // Don't need to pass anything
@@ -67,31 +119,4 @@ export async function updateComment(commentId) {
 
     // console.log('Comment update result:', comment);
     return comment;
-}
-
-// Submit a Comment to a post
-export async function submitComment({ commentContent, postId }) {
-    // console.log(`retrieved comment content: `, commentContent);
-
-    // Get user saved in local storage
-    const { data: userData } = await supabase.auth.getUser();
-
-    // Comments table schema: id, created_at (both are autofilled), post_id, created_by
-    const { data, error } = await supabase
-        .from('comments')
-        .insert([
-            {
-                content: commentContent,
-                post_id: postId,
-                created_by: userData.user.id,
-            },
-        ])
-        .select();
-
-    if (error) {
-        toast.error(error.message);
-        throw new Error(error.message);
-    }
-
-    return data;
 }

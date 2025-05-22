@@ -24,8 +24,8 @@ export default function CommentItem({ comment, isDeletable, isPreview }) {
                         {comment?.is_deleted ? (
                             <span>{'[deleted]'}</span>
                         ) : (
-                            <Link to={`/user/${comment.profiles.username}`}>
-                                {comment?.profiles?.username}
+                            <Link to={`/user/${comment.username}`}>
+                                {comment?.username}
                             </Link>
                         )}
                     </div>

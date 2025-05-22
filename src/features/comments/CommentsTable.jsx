@@ -13,7 +13,7 @@ export default function CommentsTable({
                     <CommentItem
                         comment={comment}
                         key={comment.id}
-                        isDeletable={user?.id === comment.created_by}
+                        isDeletable={user?.user_id === comment.created_by}
                         isPreview={isPreview}
                     ></CommentItem>
                 );
