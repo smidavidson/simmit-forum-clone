@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../services/apiPosts';
 import { useSearchParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 // Returns posts from post table
 export function usePosts() {
@@ -33,7 +34,9 @@ export function usePosts() {
             return getPosts({ sortBy, page, filter });
         },
     });
+
     if (error) {
+        toast.error(error.message);
         console.log('Error fetching posts in usePosts: ', error);
     }
 

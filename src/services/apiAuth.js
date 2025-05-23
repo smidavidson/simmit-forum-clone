@@ -31,8 +31,11 @@ export async function login({ email, password }) {
         // onSuccess receives this object
         return { user: resData.user };
     } catch (error) {
-        toast.error(error.message);
-        throw error;
+        throw new Error(
+            error.message === 'Failed to fetch'
+                ? 'Failed to fetch login'
+                : error.message,
+        );
     }
 }
 
@@ -76,7 +79,7 @@ export async function getCurrentUser() {
 
     console.log(`User auth was valid`);
 
-    return {user: resData.user};
+    return { user: resData.user };
 }
 
 export async function signup({ username, email, password }) {

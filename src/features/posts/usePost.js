@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getPost } from '../../services/apiPosts';
 import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 // Retrieve single Post record using Post Id in params URL
 export function usePost() {
@@ -19,6 +20,7 @@ export function usePost() {
         },
     });
     if (error) {
+        toast.error(error.message);
         console.log('Error fetching posts in usePost: ', error);
     }
 

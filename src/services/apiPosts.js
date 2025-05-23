@@ -39,8 +39,11 @@ export async function getPosts({
 
         return { posts: resData.posts, count: resData.count };
     } catch (error) {
-        toast.error(error.message || 'Error fetching posts');
-        throw new Error(error);
+        throw new Error(
+            error.message === 'Failed to fetch'
+                ? 'Failed to fetch posts'
+                : error.message,
+        );
     }
 }
 
@@ -63,8 +66,11 @@ export async function getPost(id) {
 
         return resData;
     } catch (error) {
-        toast.error(error.message);
-        throw new Error(error);
+        throw new Error(
+            error.message === 'Failed to fetch'
+                ? 'Failed to fetch post'
+                : error.message,
+        );
     }
 }
 

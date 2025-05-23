@@ -11,13 +11,11 @@ export async function getFlairs() {
         const resData = await res.json();
 
         if (!res.ok) {
-            toast.error(resData.message || 'Failed to fetch flairs');
             throw new Error(resData.message || 'Failed to fetch flairs');
         }
 
         return resData;
     } catch (error) {
-        toast.error(error.message);
         throw error;
     }
 }
