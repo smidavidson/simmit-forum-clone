@@ -1,5 +1,4 @@
 import toast from 'react-hot-toast';
-import supabase from './supabase';
 
 // Get a specific single Post record given a Post ID
 export async function getFlairs() {

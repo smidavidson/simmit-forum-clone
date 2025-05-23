@@ -1,7 +1,6 @@
 // Where we directly interact with `posts` table with supabase API
 
 import toast from 'react-hot-toast';
-import supabase from './supabase';
 import { PAGE_SIZE } from '../utils/constants';
 
 // Get all Posts from Posts table

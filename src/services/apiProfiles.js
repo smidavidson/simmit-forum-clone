@@ -1,6 +1,5 @@
 import toast from 'react-hot-toast';
 import { PAGE_SIZE } from '../utils/constants';
-import supabase from './supabase';
 
 // used to retrieve profile of a given user id (avatar, username, about, etc)
 // Called by useUser to retrieve username mainly
