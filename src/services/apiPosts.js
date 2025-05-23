@@ -22,6 +22,8 @@ export async function getPosts({
             params.append('filter', filter);
         }
 
+        params.append('page_size', PAGE_SIZE);
+
         const res = await fetch(
             `${import.meta.env.VITE_BACKEND_URL}/posts?${params.toString()}`,
             {
