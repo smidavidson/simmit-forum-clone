@@ -11,10 +11,12 @@ export default function DisplayComments({ postId, user }) {
         return <div>Loading...</div>;
     }
 
+    const visibleComments = commentsForPost.filter(comment => !comment.is_deleted);
+
     return (
         <div>
             <div className='mb-1 font-medium'>
-                {commentsForPost.length} comments:{' '}
+                {visibleComments.length} comments:{' '}
             </div>
             <hr className='mb-4 border-t-2 border-dotted'></hr>
             <div>
