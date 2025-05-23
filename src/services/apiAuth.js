@@ -1,7 +1,5 @@
 // File for directly dealing with any auth related supabase stuff
-
 import toast from 'react-hot-toast';
-import supabase from './supabase';
 
 // Used to login
 export async function login({ email, password }) {
@@ -65,69 +63,80 @@ export async function logout() {
 
 // Used to get user data after refresh (because React Query loses session data on refresh)
 export async function getCurrentUser() {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/me`, {
-        method: 'GET',
-        credentials: 'include',
-    });
+    try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/me`, {
+            method: 'GET',
+            credentials: 'include',
+        });
 
-    if (!res.ok) {
-        console.log(`User auth was invalid`);
+        if (!res.ok) {
+            console.log(`User auth was invalid`);
+            return { success: false, user: null };
+        }
+
+        const resData = await res.json();
+
+        console.log(`User auth was valid`);
+
+        return { user: resData.user };
+    } catch (error) {
+        console.log(`Error getting current user: ${error.message}`);
         return { success: false, user: null };
     }
-
-    const resData = await res.json();
-
-    console.log(`User auth was valid`);
-
-    return { user: resData.user };
 }
 
 export async function signup({ username, email, password }) {
-    const errors = [];
-
-    // Check if username already exists
-    const { data: existingUser } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('username', username)
-        .maybeSingle();
-
-    if (existingUser) {
-        errors.push('Username already taken');
-    }
-
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-            data: {
-                username: username,
-                avatar: '', // Put avatar here later
+    try {
+        const res = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password,
+                }),
             },
-        },
-    });
+        );
 
-    // console.log('apiAuth: ', data);
-    // console.log(error);
+        const resData = await res.json();
 
-    // (If confirm email is disabled) AuthApiError returned with message: "User already registered"
-    const userAlreadyExistsConfirmEmail =
-        error?.message === 'User already registered';
-    if (userAlreadyExistsConfirmEmail) {
-        // console.log("bro: ", userAlreadyExistsConfirmEmail)
-        errors.push('User already registered');
+        if (!res.ok) {
+            if (res.status === 400) {
+                toast.error(resData.message || 'Username and password required',);
+            } else if (res.status === 500) {
+                if (
+                    resData.message.includes('duplicate') ||
+                    resData.message.includes('already exists') ||
+                    resData.message.includes('unique constraint')
+                ) {
+                    toast.error('User with this email or username already exists',);
+                } else {
+                    toast.error('Registration failed. Please try again.');
+                }
+            }
+            throw new Error(resData.message || 'Registration failed');
+        }
+
+        toast.success('Registration successful!');
+        return { user: resData.user };
+    } catch (error) {
+        // Don't show toast here if we already showed it above
+        if (
+            !error.message.includes('duplicate') &&
+            !error.message.includes('already exists') &&
+            !error.message.includes('unique constraint')
+        ) {
+            toast.error(
+                error.message === 'Failed to fetch'
+                    ? 'Failed to connect to server'
+                    : error.message,
+            );
+        }
+        throw new Error(error.message);
     }
-
-    // (If confirm email is enabled) Fake user data is returned with a empty user identities array which means email has already been used
-    const userAlreadyExists = data?.user?.identities?.length === 0;
-    if (userAlreadyExists) {
-        // console.log("bro: ", userAlreadyExists)
-        errors.push('User already registered');
-    }
-
-    if (errors.length != 0) {
-        throw new Error(JSON.stringify(errors));
-    }
-
-    return data;
 }
