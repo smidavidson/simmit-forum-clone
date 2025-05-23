@@ -7,8 +7,9 @@ export function useUpdatePost() {
 
     const { mutate: updatePost, isLoading: isUpdatingPost } = useMutation({
         mutationFn: (postId) => updatePostApi(postId),
-        onSuccess: (postId) => {
-            toast.success('Post successfully updated');
+        onSuccess: (_data, postId) => {
+            toast.success('Post successfully deleted');
+            console.log('Invalidating queries for post', postId);
             // Invalidate the post we just deleted
             queryClient.invalidateQueries({ queryKey: ['post', postId] });
             // Invalidate front page posts
