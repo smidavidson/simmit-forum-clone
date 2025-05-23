@@ -40,5 +40,5 @@ export function usePosts() {
         console.log('Error fetching posts in usePosts: ', error);
     }
 
-    return { isLoadingPosts, posts, count };
+    return { isLoadingPosts, posts, count, error };
 }

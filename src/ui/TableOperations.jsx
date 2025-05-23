@@ -13,10 +13,11 @@ export default function TableOperations({ children, className }) {
 
 function OperationsItem({
     filterField,
-    options,
+    options = [],
     className,
     children,
     defaultValue = null,
+    disabled = false,
 }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentFilter =
@@ -48,6 +49,7 @@ function OperationsItem({
                 onChange={(e) => {
                     handleClick(e.target.value);
                 }}
+                disabled={disabled}
             >
                 {defaultValue && (
                     <option
