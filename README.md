@@ -1,7 +1,7 @@
 # Simmit: The Simple Forum 
 
 Simmit is a simple Reddit-like forum built with **React.JS, Tailwind CSS, and Vite**.\
-**Live Demo:** https://app.testytestsite.click/
+**Live Demo:** https://app.simmitforum.click/
 
 The backend was built using **Node.js, Express.js and express-session** using **PSQL** for persistent data storage and **Redis** for session management and caching.\
 More information for the backend can be found here: https://github.com/smidavidson/simmit-forum-backend
